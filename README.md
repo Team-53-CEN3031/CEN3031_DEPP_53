@@ -3,6 +3,24 @@
 
 ## Setup
 
+In backend/src/main/resources create a file called application.properties and add the 
+following properties: 
+
+`spring.datasource.url=****`
+
+`spring.jpa.hibernate.ddl-auto=update`
+
+`spring.datasource.username=****`
+
+`spring.datasource.password=****`
+
+`spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect`
+
+Replace the asterisks with your database url, username and password.
+
+
+
+
 Requires Node.JS installed
 
 Preferred IDE is IntelliJ, runs on VS Code, haven't tested on Visual Studio

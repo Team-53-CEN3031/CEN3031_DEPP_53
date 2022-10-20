@@ -35,17 +35,34 @@ function App() {
         registrationDate is set to the current date in ISO format
         user is the object that is sent to the backend and is converted to JSON format and sent as a POST request under user/add in the backend
         */
-        e.preventDefault();
-        let registrationDate = new Date();
-        registrationDate = registrationDate.toISOString();
-        const user = {name,registrationDate,email,password};
-        fetch("http://localhost:8080/user/add", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(user)
-        }).then(()=>{
-            console.log("New user added")
-        })
+        // Check source of event
+        if (e.target.id === 'signup') {
+            e.preventDefault();
+            let registrationDate = new Date();
+            registrationDate = registrationDate.toISOString();
+            const user = {name,registrationDate,email,password};
+            fetch("http://localhost:8080/user/add", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(user)
+            }).then(()=>{
+                console.log("New user added")
+            })
+        } else if(e.target.id === 'login') {
+            console.log("Login")
+            e.preventDefault();
+            const name = null;
+            const registrationDate = null;
+            const user = {name,registrationDate,email,password};
+            console.log(user);
+            fetch("http://localhost:8080/user/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(user)
+            }).then((res)=>{
+                console.log(res)
+            })
+        }
     }
     useEffect(()=>{
         /*
@@ -61,12 +78,37 @@ function App() {
     },[])
     return (
         <div className="App">
+            <div className="header">
+                <Paper elevation = {3} style={paperStyle}>
+                    <h1 style = {{color: 'salmon'}}> Login</h1>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': { m: 1 },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        {/*
+                        TextField is used to take input from the user
+                        When it is changed, the name is updated through setName
+                        */}
+                        <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {email} onChange={(e)=>setEmail(e.target.value)}/>
+                        <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>
+                    </Box>
+                    {/*
+                    Button is used to submit the form
+                    When it is clicked, handleClick is called
+                    */}
+                    <Button id = "login" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
+                </Paper>
+            </div>
             <Container>
                 {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
                 <Paper elevation = {3} style = {paperStyle}>
-                    <h1 style = {{color: 'salmon'}}> Add Person</h1>
+                    <h1 style = {{color: 'salmon'}}> Sign Up</h1>
                     <Box
                         component="form"
                         sx={{
@@ -87,7 +129,7 @@ function App() {
                     Button is used to submit the form
                     When it is clicked, handleClick is called
                     */}
-                    <Button variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
+                    <Button id = "signup" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
                 </Paper>
                 <Paper elevation={3} style={paperStyle}>
                     {/*

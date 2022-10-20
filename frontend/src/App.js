@@ -20,7 +20,9 @@ function App() {
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
 
     // name is used to store the name of the user and is sent to the backend to add an entry into the database
-    const[name, setName] = useState('')
+    const[name, setName] = useState('');
+    const[email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
 
     //users is retrieved from the backend and is used to display the list of users and their registration dates
     const[users,setUsers] = useState([])
@@ -36,7 +38,7 @@ function App() {
         e.preventDefault();
         let registrationDate = new Date();
         registrationDate = registrationDate.toISOString();
-        const user = {name,registrationDate};
+        const user = {name,registrationDate,email,password};
         fetch("http://localhost:8080/user/add", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -78,6 +80,8 @@ function App() {
                         When it is changed, the name is updated through setName
                         */}
                         <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {name} onChange={(e)=>setName(e.target.value)}/>
+                        <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {email} onChange={(e)=>setEmail(e.target.value)}/>
+                        <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>
                     </Box>
                     {/*
                     Button is used to submit the form
@@ -93,7 +97,9 @@ function App() {
                     {users.map(user=>(
                         <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={user.id}>
                             Name: {user.name}<br/>
-                            Date: {printDate(user.registrationDate)}
+                            Date: {printDate(user.registrationDate)} <br/>
+                            Email : {user.email} <br/>
+                            Password : {user.password}
                         </Paper>
                     ))}
                 </Paper>

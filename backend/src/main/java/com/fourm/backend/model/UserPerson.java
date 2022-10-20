@@ -19,7 +19,8 @@ public class UserPerson {
     @Column(name = "registration_date")
     private Timestamp registrationDate;
 
-    @Column(name = "email")
+    // email is the email of the user and is unique
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")

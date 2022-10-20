@@ -1,5 +1,6 @@
 package com.fourm.backend.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,28 @@ public class UserController {
     @GetMapping("/getAll")
     public List<UserPerson> getAllUsers() {
         return userService.getAllUsers();
+    }
+    @PostMapping("/login")
+    public String login(@RequestBody UserPerson userPerson) {
+        String email = userPerson.getEmail();
+        String password = userPerson.getPassword();
+
+        List<UserPerson> users = userService.getAllUsers();
+        for (UserPerson user : users) {
+            if(user.getEmail() == null ) {
+                continue;
+            }
+            if(user.getPassword() == null) {
+                continue;
+            }
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                //Return status code 200
+                System.out.println(user.getId());
+                return "200";
+            }
+        }
+        //Return status code 401
+        return "401";
+
     }
 }

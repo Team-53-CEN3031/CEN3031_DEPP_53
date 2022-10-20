@@ -10,4 +10,5 @@ public interface UserService {
     public UserPerson saveUser(UserPerson userPerson);
     //getAllUsers is a method that is used to get all the users from the database and return them as a list
     public List<UserPerson> getAllUsers();
+
 }

@@ -15,7 +15,7 @@ import java.util.List;
     UserController is a class that is used to handle the requests that are sent to the backend
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @CrossOrigin
 public class UserController {
     private UserService userService;

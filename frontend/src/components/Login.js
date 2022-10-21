@@ -25,7 +25,7 @@ function Login() {
             const registrationDate = null;
             const user = {name,registrationDate,email,password};
             console.log(user);
-            fetch("http://localhost:8080/user/login", {
+            fetch("http://localhost:8080/api/user/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)

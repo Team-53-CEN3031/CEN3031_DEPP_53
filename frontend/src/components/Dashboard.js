@@ -26,7 +26,7 @@ function Dashboard() {
         This function is used to retrieve the list of users from the backend
         It is called when the page is loaded
          */
-        fetch("http://localhost:8080/user/getAll")
+        fetch("http://localhost:8080/api/user/getAll")
             .then(res=>res.json())
             .then((result)=>{
                     setUsers(result);

@@ -26,6 +26,19 @@ public class UserPerson {
     @Column(name = "password")
     private String password;
 
+    //Role is the role of the user and is not unique
+    //The role can be either admin or user
+    @Column(name = "role")
+    private String role = "user";
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public UserPerson() {
 
     }

@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserPerson saveUser(UserPerson userPerson) {
+        userPerson.setRole("user");
         return userRepository.save(userPerson);
     }
     /*Override is used to override the getAllUsers method in the UserService interface

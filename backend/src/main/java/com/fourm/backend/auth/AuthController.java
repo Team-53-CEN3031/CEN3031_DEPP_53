@@ -1,8 +1,10 @@
-package com.fourm.backend.controller;
+package com.fourm.backend.auth;
 
 import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
@@ -33,6 +35,12 @@ public class AuthController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
+    @Value("${fourm.app.jwtSecret}")
+    private String jwtSecret;
+
+    @Value("${fourm.app.jwtExpirationMs}")
+    private int jwtExpirationMs;
 
     @PostMapping("/login")
     public String login(@RequestBody Login login) {

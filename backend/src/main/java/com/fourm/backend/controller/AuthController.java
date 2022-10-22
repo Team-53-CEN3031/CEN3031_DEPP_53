@@ -2,6 +2,7 @@ package com.fourm.backend.controller;
 
 import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
@@ -23,6 +24,16 @@ import java.util.List;
 @CrossOrigin
 public class AuthController {
     private UserService userService;
+    @Autowired
+    /*
+    Autowired is used to inject the UserService into the UserController class
+    This is done by using the @Autowired annotation
+    setUserService is a method that is used to set the UserService in the UserController class
+     */
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/login")
     public String login(@RequestBody Login login) {
         String email = login.getEmail();

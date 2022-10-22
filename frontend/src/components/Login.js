@@ -22,10 +22,9 @@ function Login() {
             console.log("Login")
             e.preventDefault();
             const name = null;
-            const registrationDate = null;
-            const user = {name,registrationDate,email,password};
+            const user = {name,email,password};
             console.log(user);
-            fetch("http://localhost:8080/api/user/login", {
+            fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)

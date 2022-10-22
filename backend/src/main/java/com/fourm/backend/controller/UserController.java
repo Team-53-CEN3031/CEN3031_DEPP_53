@@ -1,11 +1,13 @@
 package com.fourm.backend.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /*
@@ -29,18 +31,7 @@ public class UserController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    /*
-    @PostMapping is used to map the request to the method
-    @RequestBody is used to map the request body to the method
-    addUser is a method that is used to add a user to the database
-    @param userPerson is the user that is being added to the database
-    @return the user that was added to the database
-     */
-    @PostMapping("/add")
-    public String add(@RequestBody UserPerson userPerson) {
-        userService.saveUser(userPerson);
-        return "New user is added";
-    }
+
     /*
     @GetMapping is used to map the request to the method
     getAllUsers is a method that is used to get all the users from the database
@@ -51,27 +42,5 @@ public class UserController {
     public List<UserPerson> getAllUsers() {
         return userService.getAllUsers();
     }
-    @PostMapping("/login")
-    public String login(@RequestBody UserPerson userPerson) {
-        String email = userPerson.getEmail();
-        String password = userPerson.getPassword();
 
-        List<UserPerson> users = userService.getAllUsers();
-        for (UserPerson user : users) {
-            if(user.getEmail() == null ) {
-                continue;
-            }
-            if(user.getPassword() == null) {
-                continue;
-            }
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                //Return status code 200
-                System.out.println(user.getId());
-                return "200";
-            }
-        }
-        //Return status code 401
-        return "401";
-
-    }
 }

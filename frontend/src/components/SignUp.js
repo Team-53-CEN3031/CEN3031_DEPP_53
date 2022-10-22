@@ -24,8 +24,9 @@ function SignUp() {
             e.preventDefault();
             let registrationDate = new Date();
             registrationDate = registrationDate.toISOString();
-            const user = {name,registrationDate,email,password};
-            fetch("http://localhost:8080/api/user/add", {
+            const user = {name,email,password};
+            console.log(user);
+            fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)

@@ -5,6 +5,9 @@ import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -18,8 +21,19 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin
+//Cross original to allow requests from the all origins
+@CrossOrigin(origins = "*")
 public class UserController {
+    //Temporary web security configuration, will be changed later
+    //Once we get the frontend working
+    @EnableWebSecurity
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.cors().and().csrf().disable();
+        }
+    }
     private UserService userService;
 
     @Autowired

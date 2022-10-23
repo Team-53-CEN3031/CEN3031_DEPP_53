@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 //Cross original to allow requests from the all origins
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserController {
     //Temporary web security configuration, will be changed later
     //Once we get the frontend working

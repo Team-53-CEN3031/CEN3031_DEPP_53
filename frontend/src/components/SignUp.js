@@ -68,7 +68,7 @@ function SignUp() {
                         {errorDiv}
                         <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {name} onChange={(e)=>setName(e.target.value)}/>
                         <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {email} onChange={(e)=>setEmail(e.target.value)}/>
-                        <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>
+                        <TextField id="outlined-basic" label="Password" type="password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>
                     </Box>
                     {/*
                     Button is used to submit the form

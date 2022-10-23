@@ -2,9 +2,6 @@ package com.fourm.backend.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-//@Entity is used to indicate that the class is an entity
-//UserPerson is a class that is used to create a user
-//UserPerson is not called User because User is a reserved word in Postgres
 public class Login {
 
     // name is the name of the user and is not unique

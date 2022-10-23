@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -60,12 +62,14 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody Login login) {
         String email = login.getEmail();
-        String password = login.getPassword();
+        String password = EncryptPassword(login.getPassword());
+
 
         List<UserPerson> users = userService.getAllUsers();
         for (UserPerson user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 //Return status code 200
+
                 return "200";
             }
         }
@@ -86,7 +90,8 @@ public class AuthController {
             //Status code 400 is used to indicate that the request is invalid
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String password = login.getPassword();
+        String password = EncryptPassword(login.getPassword());
+
         String name = login.getName();
 
         //Check if email is already in use
@@ -102,7 +107,7 @@ public class AuthController {
         UserPerson user = new UserPerson();
         user.setName(login.getName());
         user.setEmail(login.getEmail());
-        user.setPassword(login.getPassword());
+        user.setPassword(password);//encypted version
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         String DateToStoreInDataBase= sdf.format(new Date());
@@ -121,7 +126,7 @@ public class AuthController {
         //This is already done in the login method but it is done again
         //to verify that the credentials are correct
         String email = login.getEmail();
-        String password = login.getPassword();
+        String password = EncryptPassword(login.getPassword());
 
         //Finds the user with the given email
         List<UserPerson> users = userService.getAllUsers();
@@ -249,4 +254,35 @@ public class AuthController {
         //Returns null, since a user is trying to get a JWT with bad credentials
         return null;
     }
+
+    public String EncryptPassword(String password)
+    {
+        String encrypted = null;
+
+        try
+        {
+            MessageDigest temp = MessageDigest.getInstance("MD5");
+
+            temp.update(password.getBytes());
+
+            byte[] bytes = temp.digest();
+
+            StringBuilder s = new StringBuilder();
+
+            for(int i=0; i< bytes.length ; i++)
+            {
+                s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+
+            encrypted = s.toString();
+
+            return encrypted;
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

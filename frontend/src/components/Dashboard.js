@@ -1,6 +1,8 @@
 import {Box, Button, Container, Paper, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
+import {useSelector} from "react-redux";
+import authToken from "../utils/authToken";
 /*
     * This function is used to print the date in a readable format
     * @param date (String) - date in ISO format
@@ -15,6 +17,29 @@ function printDate(d) {
     }
 }
 function Dashboard() {
+    if (localStorage.jwtToken) {
+        authToken(localStorage.jwtToken);
+        console.log(localStorage.jwtToken);
+        //decode the token
+        // Read the data
+        fetch("http://localhost:8080/api/auth/validateJWT", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(localStorage.jwtToken)
+        }).then((res)=>{
+            //Open ReadableStream
+            const reader = res.body.getReader();
+            // Read the data
+            reader.read().then(({done, value}) => {
+                const str = new TextDecoder("utf-8").decode(value);
+                if(str == null) {
+                    return;
+                }
+                console.log(str);
+            });
+        })
+    }
+
     // paperStyle is used to style the paper component
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
 

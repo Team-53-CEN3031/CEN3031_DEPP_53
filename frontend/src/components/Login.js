@@ -9,6 +9,26 @@ function Login() {
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
 
+
+    function login(user) {
+        fetch("http://localhost:8080/api/auth/getJWT", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        }).then((res2)=>{
+            //Open ReadableStream
+            const reader = res2.body.getReader();
+            // Read the data
+            reader.read().then(({done, value}) => {
+                const str = new TextDecoder("utf-8").decode(value);
+                if(str == null) {
+                    return;
+                }
+                localStorage.setItem('jwtToken', str);
+            });
+        })
+    }
+
     const handleClick=(e)=> {
         /*
         This function is used to send the name to the backend to add an entry into the database
@@ -19,17 +39,17 @@ function Login() {
         */
         // Check source of event
         if(e.target.id === 'login') {
-            console.log("Login")
             e.preventDefault();
             const name = null;
             const user = {name,email,password};
-            console.log(user);
             fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)
             }).then((res)=>{
-                console.log(res)
+                if(res.status === 200) {
+                    login(user);
+                }
             })
         }
     }

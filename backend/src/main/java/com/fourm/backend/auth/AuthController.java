@@ -10,10 +10,17 @@ import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
 import com.fourm.backend.controller.UserController;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 /*
     @RestController is a marker annotation that is used to indicate that the class is a controller
@@ -25,6 +32,20 @@ import java.util.List;
 @RequestMapping("/api/auth")
 @CrossOrigin
 public class AuthController {
+    //Serial version UID is used to identify what version of the class is being used
+    private static final long serialVersionUID = 1111L;
+
+    @Value("${fourm.app.jwtSecret}")
+    private String secretKey;
+
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+
+    @Value("${fourm.app.jwtExpirationMs}")
+    private long tokenValidityInSeconds;
+
     private UserService userService;
     @Autowired
     /*
@@ -51,7 +72,6 @@ public class AuthController {
         for (UserPerson user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 //Return status code 200
-                System.out.println(user.getId());
                 return "200";
             }
         }
@@ -88,4 +108,48 @@ public class AuthController {
 
     }
 
+    @PostMapping("/getJWT")
+    @ResponseBody
+    public String getJwtToken(@RequestBody Login login) {
+        String email = login.getEmail();
+        String password = login.getPassword();
+
+        List<UserPerson> users = userService.getAllUsers();
+        boolean valid = false;
+        for (UserPerson user : users) {
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                //Returns null, since a user is trying to get a JWT with bad credentials
+                valid = true;
+                break;
+            }
+        }
+
+        if(!valid){
+            return null;
+        }
+        //Return JWT token
+        Date now = new Date();
+        String k = Jwts.builder().setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS256, secretKey).compact();
+        System.out.println(k);
+        return k;
+    }
+
+    @GetMapping("/validateJWT")
+    @ResponseBody
+    public String validateJwtToken(@RequestHeader("Authorization") String token) {
+        //Check if token is valid
+        if (token != null && token.startsWith("Bearer ")) {
+            try {
+                String jwt = token.substring(7);
+                Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt).getBody();
+                System.out.println(claims.getSubject());
+                return "200";
+            } catch (Exception e) {
+                return "401";
+            }
+        }
+        return "401";
+    }
 }

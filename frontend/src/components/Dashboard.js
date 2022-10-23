@@ -17,35 +17,13 @@ function printDate(d) {
     }
 }
 function Dashboard() {
-    if (localStorage.jwtToken) {
-        authToken(localStorage.jwtToken);
-        console.log(localStorage.jwtToken);
-        //decode the token
-        // Read the data
-        fetch("http://localhost:8080/api/auth/validateJWT", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(localStorage.jwtToken)
-        }).then((res)=>{
-            //Open ReadableStream
-            const reader = res.body.getReader();
-            // Read the data
-            reader.read().then(({done, value}) => {
-                const str = new TextDecoder("utf-8").decode(value);
-                if(str == null) {
-                    return;
-                }
-                console.log(str);
-            });
-        })
-    }
+    const[username,setUsername] = useState('')
 
     // paperStyle is used to style the paper component
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
 
     //users is retrieved from the backend and is used to display the list of users and their registration dates
     const[users,setUsers] = useState([])
-
     useEffect(()=>{
         /*
         This function is used to retrieve the list of users from the backend
@@ -57,9 +35,41 @@ function Dashboard() {
                     setUsers(result);
                 }
             )
+        if (localStorage.jwtToken) {
+            authToken(localStorage.jwtToken);
+            //header = Authorization: Bearer ${localStorage.jwtToken}
+            fetch("http://localhost:8080/api/auth/validateJWT", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: localStorage.jwtToken
+            }).then((res)=>{
+                if(res.status === 401) {
+                    localStorage.removeItem('jwtToken');
+                }
+                fetch("http://localhost:8080/api/auth/getUsername", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: localStorage.jwtToken
+                }).then((res2)=>{
+                    //Open ReadableStream
+                    const reader = res2.body.getReader();
+                    // Read the data
+                    reader.read().then(({done, value}) => {
+                        const str = new TextDecoder("utf-8").decode(value);
+                        if(str == null) {
+                            setUsername('');
+                        }
+                        setUsername(str);
+                    });
+                });
+            })
+        }
     },[])
     return (
         <div className="dashboard">
+            <div className="header">
+                HELLO {username}
+            </div>
             <Container>
                 {/*Paper component is used to style the form
                 Paper is just a container with a shadow

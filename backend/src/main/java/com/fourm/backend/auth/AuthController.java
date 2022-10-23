@@ -7,6 +7,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -72,8 +74,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody Login login) {
+    public ResponseEntity<?> register(@RequestBody Login login) {
         String email = login.getEmail();
+        //Check email regex
+        //The email regex is used to check if the email is valid
+        //It's hard to check if the email is valid, so it's
+        //better just to let some non-valid emails through
+        //compared to denying valid emails
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            //Return status code 400 if the email is not valid
+            //Status code 400 is used to indicate that the request is invalid
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String password = login.getPassword();
         String name = login.getName();
 
@@ -82,7 +94,7 @@ public class AuthController {
         for (UserPerson user : users) {
             if (user.getEmail().equals(email)) {
                 //Return status code 401
-                return "401";
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
 
@@ -98,7 +110,7 @@ public class AuthController {
         user.setRegistrationDate(ts);
 
         userService.saveUser(user);
-        return "200";
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

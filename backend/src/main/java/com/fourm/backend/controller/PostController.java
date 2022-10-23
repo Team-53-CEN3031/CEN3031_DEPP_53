@@ -38,11 +38,9 @@ public class PostController {
 
         //Verify the token
         if(authController.validateJwtToken(posterToken).getStatusCode() != HttpStatus.OK){
-            System.out.println("Invalid token");
             return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
         }
 
-        System.out.println("Correct token");
         Post p = new Post();
         p.setPostMessage(postPrototype.getPostMessage());
         Long[] tokenData = authController.getJwtTokenData(posterToken);

@@ -23,7 +23,6 @@ function Post() {
                 return;
             }
             let p = {postMessage, posterToken};
-            console.log(p)
             fetch("http://localhost:8080/api/post/add", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},

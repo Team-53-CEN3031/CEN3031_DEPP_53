@@ -27,19 +27,16 @@ function SignUp() {
             let registrationDate = new Date();
             registrationDate = registrationDate.toISOString();
             const user = {name,email,password};
-            console.log(user);
             fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)
             }).then((res)=>{
                 if(res.status < 300 && res.status >= 200) {
-                    console.log("Register Success");
                     //Upon successful registration, redirect to login page
                     window.location.href = "/login";
                 } else if(res.status === 400) {
                     //Else, display error message
-                    console.log("Register Failed");
                     setErrorDiv(<div className="error">Error Registering, Code {res.status}</div>)
                 }
             })

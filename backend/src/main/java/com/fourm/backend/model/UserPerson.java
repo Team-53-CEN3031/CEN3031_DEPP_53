@@ -1,9 +1,6 @@
 package com.fourm.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 //@Entity is used to indicate that the class is an entity
 //UserPerson is a class that is used to create a user
@@ -16,9 +13,31 @@ public class UserPerson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     // name is the name of the user and is not unique
+    @Column(name = "name")
     private String name;
     // registrationDate is the date the user registered and is not unique
+    @Column(name = "registration_date")
     private Timestamp registrationDate;
+
+    // email is the email of the user and is unique
+    @Column(name = "email", unique = true)
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    //Role is the role of the user and is not unique
+    //The role can be either admin or user
+    @Column(name = "role")
+    private String role = "user";
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public UserPerson() {
 
@@ -48,4 +67,19 @@ public class UserPerson {
         this.registrationDate = registrationDate;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -1,10 +1,16 @@
 package com.fourm.backend.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /*
@@ -14,9 +20,20 @@ import java.util.List;
     UserController is a class that is used to handle the requests that are sent to the backend
  */
 @RestController
-@RequestMapping("/user")
-@CrossOrigin
+@RequestMapping("/api/user")
+//Cross original to allow requests from the all origins
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserController {
+    //Temporary web security configuration, will be changed later
+    //Once we get the frontend working
+    @EnableWebSecurity
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.cors().and().csrf().disable();
+        }
+    }
     private UserService userService;
 
     @Autowired
@@ -28,18 +45,7 @@ public class UserController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    /*
-    @PostMapping is used to map the request to the method
-    @RequestBody is used to map the request body to the method
-    addUser is a method that is used to add a user to the database
-    @param userPerson is the user that is being added to the database
-    @return the user that was added to the database
-     */
-    @PostMapping("/add")
-    public String add(@RequestBody UserPerson userPerson) {
-        userService.saveUser(userPerson);
-        return "New user is added";
-    }
+
     /*
     @GetMapping is used to map the request to the method
     getAllUsers is a method that is used to get all the users from the database
@@ -50,4 +56,5 @@ public class UserController {
     public List<UserPerson> getAllUsers() {
         return userService.getAllUsers();
     }
+
 }

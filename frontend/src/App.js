@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import "./App.css";
 import SignUp from "./components/SignUp";

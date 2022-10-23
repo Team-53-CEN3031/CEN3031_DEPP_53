@@ -38,13 +38,15 @@ public class AuthController {
     @Value("${fourm.app.jwtSecret}")
     private String secretKey;
 
+    @Value("${fourm.app.jwtExpirationMs}")
+    private int jwtExpirationMs;
+
+
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    @Value("${fourm.app.jwtExpirationMs}")
-    private long tokenValidityInSeconds;
 
     private UserService userService;
     @Autowired
@@ -56,12 +58,6 @@ public class AuthController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
-    @Value("${fourm.app.jwtSecret}")
-    private String jwtSecret;
-
-    @Value("${fourm.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
 
     @PostMapping("/login")
     public String login(@RequestBody Login login) {
@@ -124,6 +120,7 @@ public class AuthController {
             }
         }
 
+        //User somehow attempted to get a JWT with bad credentials
         if(!valid){
             return null;
         }

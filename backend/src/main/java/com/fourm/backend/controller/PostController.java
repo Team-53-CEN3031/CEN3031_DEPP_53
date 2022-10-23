@@ -1,9 +1,13 @@
 package com.fourm.backend.controller;
 
 import com.fourm.backend.model.Post;
+import com.fourm.backend.model.PostPrototype;
 import com.fourm.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fourm.backend.auth.AuthController;
 
 import java.util.List;
 
@@ -11,7 +15,14 @@ import java.util.List;
 @RequestMapping("/api/post")
 @CrossOrigin
 public class PostController {
+    private AuthController authController;
+
     private PostService postService;
+
+    @Autowired
+    public PostController(AuthController authController) {
+        this.authController = authController;
+    }
 
     @Autowired
     public void setPostService(PostService postService) {
@@ -19,9 +30,27 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestBody Post post) {
-        postService.savePost(post);
-        return "New post is added";
+    public ResponseEntity<?> add(@RequestBody PostPrototype postPrototype) {
+        String posterToken = postPrototype.getPosterToken();
+        if(posterToken == null) {
+            return new ResponseEntity<>("Poster token is null", HttpStatus.BAD_REQUEST);
+        }
+
+        //Verify the token
+        if(authController.validateJwtToken(posterToken).getStatusCode() != HttpStatus.OK){
+            System.out.println("Invalid token");
+            return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
+        }
+
+        System.out.println("Correct token");
+        Post p = new Post();
+        p.setPostMessage(postPrototype.getPostMessage());
+        Long[] tokenData = authController.getJwtTokenData(posterToken);
+        p.setPosterId(tokenData[0].intValue());
+        p.setPostTime(new java.sql.Timestamp(System.currentTimeMillis()));
+
+        postService.savePost(p);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/getAll")

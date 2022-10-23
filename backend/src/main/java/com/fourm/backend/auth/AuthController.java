@@ -2,14 +2,12 @@ package com.fourm.backend.auth;
 
 import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
-import io.jsonwebtoken.Jwt;
+import com.fourm.backend.service.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.fourm.backend.model.UserPerson;
-import com.fourm.backend.service.UserService;
-import com.fourm.backend.controller.UserController;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
@@ -17,11 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /*
     @RestController is a marker annotation that is used to indicate that the class is a controller
@@ -45,6 +38,8 @@ public class AuthController {
 
     @PostConstruct
     protected void init() {
+        //Base64 is used to encode the secret key
+        //This is done to make sure that the secret key is not stored in plain text
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
@@ -90,14 +85,16 @@ public class AuthController {
                 return "401";
             }
         }
+
+        //Create new user based on the information provided
         UserPerson user = new UserPerson();
         user.setName(login.getName());
         user.setEmail(login.getEmail());
         user.setPassword(login.getPassword());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-        String DateToStoreInDataBase= sdf.format(new Date()); // java.util.Date
-        Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase); // java.sql.Timestamp
+        String DateToStoreInDataBase= sdf.format(new Date());
+        Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase);
         user.setRegistrationDate(ts);
 
         userService.saveUser(user);
@@ -108,9 +105,13 @@ public class AuthController {
     @PostMapping("/getJWT")
     @ResponseBody
     public String getJwtToken(@RequestBody Login login) {
+        //Check if email and password are correct
+        //This is already done in the login method but it is done again
+        //to verify that the credentials are correct
         String email = login.getEmail();
         String password = login.getPassword();
 
+        //Finds the user with the given email
         List<UserPerson> users = userService.getAllUsers();
         UserPerson actualUser = null;
         boolean valid = false;
@@ -133,13 +134,32 @@ public class AuthController {
         return createToken(Long.toString(actualUser.getId()), now, expiryDate);
     }
 
+
+    /*
+    validateJwtToken is a method that is used to validate a JWT token
+    @param authToken is a String that is used to represent the JWT token
+    @return String that is a confirmation that the token is valid
+    returns 200 if the token is valid
+    returns 401 if the token is invalid
+     */
     @PostMapping("/validateJWT")
     @ResponseBody
     public String validateJwtToken(@RequestBody String token) {
         Long[] data = getJwtTokenData(token);
+        //Create a new date object (issued at)
         Date d1 = new Date(data[1] * 1000L);
+        //Create a new date object (expiry date)
         Date d2 = new Date(data[2] * 1000L);
+        //Create a token with the data from the JWT
         String testToken = createToken(String.valueOf(data[0]), d1, d2);
+
+        //Checks if the token is valid
+        //There's a chance that the token is valid, but the user is not in the database
+        //This is because the user could have been deleted from the database
+        //TODO: Check if the user is in the database
+
+        //There's almost definitely a vulnerability here, but I'm not sure what it is
+        //-Zachary
         if(testToken.equals(token)){
             return "200";
         } else {
@@ -148,6 +168,12 @@ public class AuthController {
     }
 
     public String createToken(String subject, Date issued, Date expiration) {
+        //Crates a JWT (JSON Web Token) with the given subject, issued date, and expiration date
+        //subject is the user id
+        //issued is the date the token was issued
+        //expiration is the date the token expires
+        //Not really sure how this works, but it works
+        //The signature is created using the secret key (in our properties file) and the algorithm HS512 (not sure what this is either)
         return Jwts.builder()
                 .setSubject(subject)
                 .setIssuedAt(issued)
@@ -157,14 +183,33 @@ public class AuthController {
     }
 
     public Long[] getJwtTokenData(String token){
+        //Decoder for JWT token
+        //Base64 means that the token is encoded in base64
         Base64.Decoder decoder = Base64.getUrlDecoder();
+        /*
+        Split the token into 3 parts: header, payload, signature
+        Header is the first part of the token, and is the same for all tokens
+        Payload is the second part of the token, and contains the data that we want
+        Payload contains the user id, the issue date, and the expiration date
+        Signature is the third part of the token, and is used to verify that the token is valid
+        Signature is created by using the header, payload, and a secret key to create a hash
+        Which verifies that the token is valid
+        */
         String[] chunks = token.split("\\.");
+        //Split the token into 3 parts based on the "." character
         String payload = new String(decoder.decode(chunks[1]));
+        //Decode the payload from base64
         String[] y = payload.split(",");
+        //Split the payload's data into an array that contains the user id, issue date, and expiration date
         for(int i = 0; i < y.length; i++){
             y[i] = y[i].replaceAll("[^0-9]", "");
+            //Replace all non-numeric characters with nothing
         }
+        //Create a new array that contains the user id, issue date, and expiration date
         Long[] data = new Long[3];
+        //Data[0] is the user id
+        //Data[1] is the issue date
+        //Data[2] is the expiration date
         data[0] = Long.parseLong(y[0]);
         data[1] = Long.parseLong(y[1]);
         data[2] = Long.parseLong(y[2]);
@@ -179,13 +224,17 @@ public class AuthController {
             return null;
         }
         Long[] data = getJwtTokenData(token);
+        //Get user id from token
+
         List<UserPerson> users = userService.getAllUsers();
+        //Iterate through all users to find the user with the id that is in the token
         for (UserPerson user : users) {
             if (user.getId() == data[0]) {
-                //Returns null, since a user is trying to get a JWT with bad credentials
+                //Return the name of the user
                 return user.getName();
             }
         }
+        //Returns null, since a user is trying to get a JWT with bad credentials
         return null;
     }
 }

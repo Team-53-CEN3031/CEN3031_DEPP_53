@@ -1,6 +1,8 @@
 import {Box, Button, Container, Paper, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/SignUp.css";
+import {Navigation} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
 function SignUp() {
     // paperStyle is used to style the paper component
@@ -10,7 +12,7 @@ function SignUp() {
     const[name, setName] = useState('');
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
-
+    const[errorDiv, setErrorDiv] = useState(<div/>);
     const handleClick=(e)=> {
         /*
         This function is used to send the name to the backend to add an entry into the database
@@ -30,8 +32,16 @@ function SignUp() {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)
-            }).then(()=>{
-                console.log("New user added")
+            }).then((res)=>{
+                if(res.status < 300 && res.status >= 200) {
+                    console.log("Register Success");
+                    //Upon successful registration, redirect to login page
+                    window.location.href = "/login";
+                } else if(res.status === 400) {
+                    //Else, display error message
+                    console.log("Register Failed");
+                    setErrorDiv(<div className="error">Error Registering, Code {res.status}</div>)
+                }
             })
         }
     }
@@ -55,6 +65,7 @@ function SignUp() {
                         TextField is used to take input from the user
                         When it is changed, the name is updated through setName
                         */}
+                        {errorDiv}
                         <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {name} onChange={(e)=>setName(e.target.value)}/>
                         <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {email} onChange={(e)=>setEmail(e.target.value)}/>
                         <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>

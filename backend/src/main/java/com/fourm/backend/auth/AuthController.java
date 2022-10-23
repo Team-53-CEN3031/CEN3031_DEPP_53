@@ -2,6 +2,7 @@ package com.fourm.backend.auth;
 
 import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -30,7 +31,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class AuthController {
     //Serial version UID is used to identify what version of the class is being used
     private static final long serialVersionUID = 1111L;
@@ -111,10 +112,12 @@ public class AuthController {
         String password = login.getPassword();
 
         List<UserPerson> users = userService.getAllUsers();
+        UserPerson actualUser = null;
         boolean valid = false;
         for (UserPerson user : users) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 //Returns null, since a user is trying to get a JWT with bad credentials
+                actualUser = user;
                 valid = true;
                 break;
             }
@@ -124,29 +127,65 @@ public class AuthController {
         if(!valid){
             return null;
         }
-        //Return JWT token
+        //Return JWT token with user id
         Date now = new Date();
-        String k = Jwts.builder().setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, secretKey).compact();
-        System.out.println(k);
-        return k;
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        return createToken(Long.toString(actualUser.getId()), now, expiryDate);
     }
 
-    @GetMapping("/validateJWT")
+    @PostMapping("/validateJWT")
     @ResponseBody
-    public String validateJwtToken(@RequestHeader("Authorization") String token) {
+    public String validateJwtToken(@RequestBody String token) {
+        Long[] data = getJwtTokenData(token);
+        Date d1 = new Date(data[1] * 1000L);
+        Date d2 = new Date(data[2] * 1000L);
+        String testToken = createToken(String.valueOf(data[0]), d1, d2);
+        if(testToken.equals(token)){
+            return "200";
+        } else {
+            return "401";
+        }
+    }
+
+    public String createToken(String subject, Date issued, Date expiration) {
+        return Jwts.builder()
+                .setSubject(subject)
+                .setIssuedAt(issued)
+                .setExpiration(expiration)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+
+    public Long[] getJwtTokenData(String token){
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+        String[] chunks = token.split("\\.");
+        String payload = new String(decoder.decode(chunks[1]));
+        String[] y = payload.split(",");
+        for(int i = 0; i < y.length; i++){
+            y[i] = y[i].replaceAll("[^0-9]", "");
+        }
+        Long[] data = new Long[3];
+        data[0] = Long.parseLong(y[0]);
+        data[1] = Long.parseLong(y[1]);
+        data[2] = Long.parseLong(y[2]);
+        return data;
+    }
+
+    @PostMapping("/getUsername")
+    @ResponseBody
+    public String getUsername(@RequestBody String token) {
         //Check if token is valid
-        if (token != null && token.startsWith("Bearer ")) {
-            try {
-                String jwt = token.substring(7);
-                Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt).getBody();
-                System.out.println(claims.getSubject());
-                return "200";
-            } catch (Exception e) {
-                return "401";
+        if(validateJwtToken(token).equals("401")){
+            return null;
+        }
+        Long[] data = getJwtTokenData(token);
+        List<UserPerson> users = userService.getAllUsers();
+        for (UserPerson user : users) {
+            if (user.getId() == data[0]) {
+                //Returns null, since a user is trying to get a JWT with bad credentials
+                return user.getName();
             }
         }
-        return "401";
+        return null;
     }
 }

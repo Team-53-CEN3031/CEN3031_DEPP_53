@@ -19,7 +19,7 @@ function Login() {
             //Open ReadableStream
             const reader = res2.body.getReader();
             // Read the data
-            reader.read().then(({done, value}) => {
+            reader.read().then(({value}) => {
                 const str = new TextDecoder("utf-8").decode(value);
                 if(str == null) {
                     return;

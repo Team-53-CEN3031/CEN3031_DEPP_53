@@ -80,10 +80,12 @@ function Dashboard() {
             </div>
             <div className="userpostcontainer">
                 <Container>
+
                     {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
                     <Paper elevation={3} style={paperStyle}>
+                        Users
                         {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend
@@ -93,7 +95,6 @@ function Dashboard() {
                                 Name: {user.name}<br/>
                                 Date: {printDate(user.registrationDate)} <br/>
                                 Email : {user.email} <br/>
-                                Password : {user.password}
                             </Paper>
                         ))}
                     </Paper>
@@ -103,6 +104,7 @@ function Dashboard() {
                 Paper is just a container with a shadow
                 */}
                     <Paper elevation={3} style={paperStyle}>
+                        Posts
                         {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend

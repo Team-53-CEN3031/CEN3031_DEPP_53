@@ -58,25 +58,12 @@ function Login() {
             <div className="header">
                 <Paper elevation = {3} style={paperStyle}>
                     <h1 style = {{color: 'salmon'}}> Login</h1>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& > :not(style)': { m: 1 },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        {/*
-                        TextField is used to take input from the user
-                        When it is changed, the name is updated through setName
-                        */}
+                    <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
+                        {/* TextField is used to take input from the user, When it is changed, the name is updated through setName */}
                         <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {email} onChange={(e)=>setEmail(e.target.value)}/>
                         <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {password} onChange={(e)=>setPassword(e.target.value)}/>
                     </Box>
-                    {/*
-                    Button is used to submit the form
-                    When it is clicked, handleClick is called
-                    */}
+                    {/* Button is used to submit the form When it is clicked, handleClick is called */}
                     <Button id = "login" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
                 </Paper>
             </div>

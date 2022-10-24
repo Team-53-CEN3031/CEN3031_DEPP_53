@@ -54,7 +54,11 @@ public class UserController {
      */
     @GetMapping("/getAll")
     public List<UserPerson> getAllUsers() {
-        return userService.getAllUsers();
+        List<UserPerson> x = userService.getAllUsers();
+        for(UserPerson userPerson : x){
+            userPerson.setPassword("");
+        }
+        return x;
     }
 
 }

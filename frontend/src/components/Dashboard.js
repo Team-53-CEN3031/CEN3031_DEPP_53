@@ -3,12 +3,7 @@ import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
 import {useSelector} from "react-redux";
 import authToken from "../utils/authToken";
-/*
-    * This function is used to print the date in a readable format
-    * @param date (String) - date in ISO format
-    * @return (String) - date in readable format
-    * Removes the time from the date
- */
+import Header from "./Header";
 function printDate(d) {
     if(d == null) {
         return 'Unknown';
@@ -25,12 +20,11 @@ function Dashboard() {
     //users is retrieved from the backend and is used to display the list of users and their registration dates
     const[users,setUsers] = useState([])
     const[posts,setPosts] = useState([])
-
     useEffect(()=>{
         /*
-        This function is used to retrieve the list of users from the backend
-        It is called when the page is loaded
-         */
+      This function is used to retrieve the list of users from the backend
+      It is called when the page is loaded
+       */
         fetch("http://localhost:8080/api/user/getAll")
             .then(res=>res.json())
             .then((result)=>{
@@ -74,53 +68,57 @@ function Dashboard() {
         }
     },[])
     return (
-        <div className="dashboard">
-            <div className="header">
-                HELLO {username}
-            </div>
-            <div className="userpostcontainer">
-                <Container>
+        <div>
+            <Header/>
+            <div className="dashboard">
+                <div className="header">
+                    HELLO {username}
+                </div>
+                <div className="userpostcontainer">
+                    <Container>
 
-                    {/*Paper component is used to style the form
+                        {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
-                    <Paper elevation={3} style={paperStyle}>
-                        Users
-                        {/*
+                        <Paper elevation={3} style={paperStyle}>
+                            Users
+                            {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend
                     */}
-                        {users.map(user=>(
-                            <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={user.id}>
-                                Name: {user.name}<br/>
-                                Date: {printDate(user.registrationDate)} <br/>
-                                Email : {user.email} <br/>
-                            </Paper>
-                        ))}
-                    </Paper>
-                </Container>
-                <Container>
-                    {/*Paper component is used to style the form
+                            {users.map(user=>(
+                                <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={user.id}>
+                                    Name: {user.name}<br/>
+                                    Date: {printDate(user.registrationDate)} <br/>
+                                    Email : {user.email} <br/>
+                                </Paper>
+                            ))}
+                        </Paper>
+                    </Container>
+                    <Container>
+                        {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
-                    <Paper elevation={3} style={paperStyle}>
-                        Posts
-                        {/*
+                        <Paper elevation={3} style={paperStyle}>
+                            Posts
+                            {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend
                     */}
-                        {posts.map(post=>(
-                            <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
-                                PostID: {post.postId}<br/>
-                                PosterID: {post.posterId}<br/>
-                                Date: {printDate(post.postTime)} <br/>
-                                Message : {post.postMessage} <br/>
-                            </Paper>
-                        ))}
-                    </Paper>
-                </Container>
+                            {posts.map(post=>(
+                                <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
+                                    PostID: {post.postId}<br/>
+                                    PosterID: {post.posterId}<br/>
+                                    Date: {printDate(post.postTime)} <br/>
+                                    Message : {post.postMessage} <br/>
+                                </Paper>
+                            ))}
+                        </Paper>
+                    </Container>
+                </div>
             </div>
         </div>
+
     );
 }
 

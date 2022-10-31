@@ -103,9 +103,9 @@ function Login() {
                         <h1 style = {{color: 'salmon'}}> Sign Up</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             {errorDiv}
-                            <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {emailS} onChange={(e)=>setEmailS(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Password" type="password" variant="outlined" fullWidth value = {passwordS} onChange={(e)=>setPasswordS(e.target.value)}/>
+                            <TextField label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
+                            <TextField label="Email" variant="outlined" fullWidth value = {emailS} onChange={(e)=>setEmailS(e.target.value)}/>
+                            <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} onChange={(e)=>setPasswordS(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
                         <Button id = "signupbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
@@ -117,8 +117,8 @@ function Login() {
                         <h1 style = {{color: 'salmon'}}> Login</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             {/* TextField is used to take input from the user, When it is changed, the name is updated through setName */}
-                            <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth value = {emailP} onChange={(e)=>setEmailP(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth value = {passwordP} onChange={(e)=>setPasswordP(e.target.value)}/>
+                            <TextField label="Email" variant="outlined" fullWidth value = {emailP} onChange={(e)=>setEmailP(e.target.value)}/>
+                            <TextField label="Password" variant="outlined" type="password" fullWidth value = {passwordP} onChange={(e)=>setPasswordP(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
                         <Button id = "loginbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>

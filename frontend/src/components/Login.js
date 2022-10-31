@@ -49,6 +49,9 @@ function Login() {
         // Check source of event
         if(e.target.id === 'loginbutton') {
             e.preventDefault();
+            if(!validEmail(emailP)) {
+                return;
+            }
             const name = null;
             const user = {name,email: emailP,password: passwordP};
             console.log(user);
@@ -64,6 +67,12 @@ function Login() {
         }
         if (e.target.id === 'signupbutton') {
             e.preventDefault();
+            if(validPassword(passwordS)) {
+                return;
+            }
+            if(validEmail(emailS)) {
+                return;
+            }
             const user = {nameS,emailS,passwordS};
             fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
@@ -93,6 +102,24 @@ function Login() {
         }
     }
 
+    function validEmail(email) {
+        //Check if email is valid
+        return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    }
+
+    function validPassword(pass) {
+        return pass.length >= 8;
+    }
+
+    function passwordHelper(pass) {
+        if(validPassword(pass)) {
+            return "";
+        }
+        if(pass.length < 8) {
+            return "Password must be at least 8 characters";
+        }
+    }
+
     function LoginSignupDiv() {
         return (
             <div>
@@ -100,14 +127,14 @@ function Login() {
                     <Paper elevation = {3} style = {paperStyle}>
                         <h1 style = {{color: 'salmon'}}> Sign Up</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
-                            {errorDiv}
                             <TextField label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
-                            <TextField label="Email" variant="outlined" fullWidth value = {emailS} onChange={(e)=>setEmailS(e.target.value)}/>
-                            <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} onChange={(e)=>setPasswordS(e.target.value)}/>
+                            <TextField label="Email" variant="outlined" fullWidth value = {emailS} error={!validEmail(emailP)} helperText={!validEmail(emailP) ? "Invalid email" : ""} onChange={(e)=>setEmailS(e.target.value)}/>
+                            <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} error={!validPassword(passwordS)} helperText={passwordHelper(passwordS)} onChange={(e)=>setPasswordS(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
                         <Button id = "signupbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
                         <Button id = "swap" variant="contained" color = "secondary" onClick={handleClick}>Already Registered?</Button>
+                        {errorDiv}
                     </Paper>
                 </div>
                 <div id = "login">
@@ -115,17 +142,17 @@ function Login() {
                         <h1 style = {{color: 'salmon'}}> Login</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             {/* TextField is used to take input from the user, When it is changed, the name is updated through setName */}
-                            <TextField label="Email" variant="outlined" fullWidth value = {emailP} onChange={(e)=>setEmailP(e.target.value)}/>
+                            <TextField label="Email" variant="outlined" fullWidth value = {emailP} error={!validEmail(emailP)} helperText={!validEmail(emailP) ? "Invalid email" : ""} onChange={(e)=>setEmailP(e.target.value)}/>
                             <TextField label="Password" variant="outlined" type="password" fullWidth value = {passwordP} onChange={(e)=>setPasswordP(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
                         <Button id = "loginbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
-                        <Button id = "swap" variant="contained" color = "secondary" onClick={handleClick}>Create Account</Button>
+                        <Button id = "swap" variant="contained" color = "secondary"  onClick={handleClick}>Create Account</Button>
+                        {errorDiv}
                     </Paper>
                 </div>
             </div>
         )
-
     }
 
     return (

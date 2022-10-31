@@ -124,30 +124,34 @@ function Login() {
         return (
             <div>
                 <div id = "signup">
-                    <Paper elevation = {3} style = {paperStyle}>
-                        <h1 style = {{color: 'salmon'}}> Sign Up</h1>
+                    <Paper elevation = {3} className="paper_container">
+                        <h1 style = {{color: 'salmon'}} className="center"> Sign Up</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             <TextField label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
                             <TextField label="Email" variant="outlined" fullWidth value = {emailS} error={!validEmail(emailP)} helperText={!validEmail(emailP) ? "Invalid email" : ""} onChange={(e)=>setEmailS(e.target.value)}/>
                             <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} error={!validPassword(passwordS)} helperText={passwordHelper(passwordS)} onChange={(e)=>setPasswordS(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
-                        <Button id = "signupbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
-                        <Button id = "swap" variant="contained" color = "secondary" onClick={handleClick}>Already Registered?</Button>
+                        <div className="center">
+                            <Button id = "signupbutton" variant="contained" color = "secondary" style = {{margin:'2%'}}onClick={handleClick}>Sign Up</Button>
+                            <Button id = "swap" color = "primary" onClick={handleClick}>Already Registered?</Button>
+                        </div>
                         {errorDiv}
                     </Paper>
                 </div>
                 <div id = "login">
-                    <Paper elevation = {3} style={paperStyle}>
-                        <h1 style = {{color: 'salmon'}}> Login</h1>
+                    <Paper elevation = {3}  className="paper_container">
+                        <h1 style = {{color: 'salmon'}} className="center"> Login</h1>
                         <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             {/* TextField is used to take input from the user, When it is changed, the name is updated through setName */}
                             <TextField label="Email" variant="outlined" fullWidth value = {emailP} error={!validEmail(emailP)} helperText={!validEmail(emailP) ? "Invalid email" : ""} onChange={(e)=>setEmailP(e.target.value)}/>
                             <TextField label="Password" variant="outlined" type="password" fullWidth value = {passwordP} onChange={(e)=>setPasswordP(e.target.value)}/>
                         </Box>
                         {/* Button is used to submit the form When it is clicked, handleClick is called */}
-                        <Button id = "loginbutton" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
-                        <Button id = "swap" variant="contained" color = "secondary"  onClick={handleClick}>Create Account</Button>
+                        <div className="center">
+                            <Button id = "loginbutton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Log In</Button>
+                            <Button id = "swap" color = "primary"  onClick={handleClick}>Don't have an account?</Button>
+                        </div>
                         {errorDiv}
                     </Paper>
                 </div>

@@ -8,3 +8,20 @@
     background-color: #f5f5f5;
 
 }
+
+body {
+    background-color: #f5f5f5;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.paper_container {
+    padding: 50px 20px;
+    width: 600px;
+    margin: 20px auto;
+}

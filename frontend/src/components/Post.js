@@ -1,6 +1,8 @@
 import {Box, Button, Container, Paper, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
-import "../styles/Login.css";
+import "../styles/Post.css";
+import Header from "./Header";
+
 
 function Post() {
     // paperStyle is used to style the paper component
@@ -36,15 +38,14 @@ function Post() {
     }
     return (
         <div className="login">
-            <div className="header">
-                <Paper elevation = {3} style={paperStyle}>
-                    <h1 style = {{color: 'salmon'}}> Post</h1>
-                    <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
-                        <TextField id="outlined-basic" label="PostMessage" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
-                    </Box>
-                    <Button id = "post" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
-                </Paper>
-            </div>
+            <Header/>
+            <Paper elevation = {3} style={paperStyle}>
+                <h1 style = {{color: 'salmon'}}> Post</h1>
+                <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
+                    <TextField id="outlined-basic" label="PostMessage" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
+                </Box>
+                <Button id = "post" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
+            </Paper>
         </div>
     );
 }

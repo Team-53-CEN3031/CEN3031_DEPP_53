@@ -160,7 +160,7 @@ function Login() {
     }
 
     return (
-        <div className="login">
+        <div>
             <Header/>
             {LoginSignupDiv()}
         </div>

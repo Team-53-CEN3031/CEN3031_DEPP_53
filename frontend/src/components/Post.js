@@ -37,7 +37,7 @@ function Post() {
         }
     }
     return (
-        <div className="login">
+        <div>
             <Header/>
             <Paper elevation = {3} style={paperStyle}>
                 <h1 style = {{color: 'salmon'}} className="center"> Post</h1>

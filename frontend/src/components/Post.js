@@ -40,11 +40,13 @@ function Post() {
         <div className="login">
             <Header/>
             <Paper elevation = {3} style={paperStyle}>
-                <h1 style = {{color: 'salmon'}}> Post</h1>
+                <h1 style = {{color: 'salmon'}} className="center"> Post</h1>
                 <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="PostMessage" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
+                    <TextField id="outlined-basic" label="Post Message" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
                 </Box>
-                <Button id = "post" variant="contained" color = "secondary" onClick={handleClick}>SUBMIT</Button>
+                <div className="center">
+                    <Button id = "post" variant="contained" color = "primary" onClick={handleClick}>SUBMIT</Button>
+                </div>
             </Paper>
         </div>
     );

@@ -27,7 +27,7 @@ function Header() {
             <div className = "top">
                 <h1 className="left">Enviro</h1>
                 <div className="middle">
-                    <img className = "logo" src={require("../images/spring.png")} alt="Enviro Logo"/>
+                    <img className = "logo" src={require("../images/enviro2.png")} alt="Enviro Logo"/>
                 </div>
                 <h1 className="right">How can you beat climate change? </h1>
             </div>

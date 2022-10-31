@@ -132,7 +132,6 @@ function Login() {
         <div className="login">
             <Header/>
             {LoginSignupDiv()}
-            HI {signup}
         </div>
     );
 }

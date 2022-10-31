@@ -36,10 +36,10 @@ function Header() {
                     <a href = "/" className= "link">Home</a>
                 </h2>
                 <h2 className="navContainer">
-                    <a href = "/Login" className= "link">Login</a>
+                    <a href = "/Login" className= "link">Login / Sign Up</a>
                 </h2>
                 <h2 className="navContainer">
-                    <a href = "/SignUp" className= "link">Sign Up</a>
+                    <a href = "/Quiz" className= "link">Quiz</a>
                 </h2>
                 <h2 className="navContainer">
                     <a href = "/Post" className= "link">Post</a>

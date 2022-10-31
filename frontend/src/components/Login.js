@@ -64,8 +64,6 @@ function Login() {
         }
         if (e.target.id === 'signupbutton') {
             e.preventDefault();
-            let registrationDate = new Date();
-            registrationDate = registrationDate.toISOString();
             const user = {nameS,emailS,passwordS};
             fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",

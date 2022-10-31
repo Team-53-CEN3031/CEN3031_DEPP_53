@@ -13,8 +13,8 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="*" element={<h1>404 Not Found</h1>} />
                     <Route path="/post" element = {<Post/>}/>
+                    <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>
             </BrowserRouter>
         </div>

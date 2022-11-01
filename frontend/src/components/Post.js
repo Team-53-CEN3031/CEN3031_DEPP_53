@@ -1,7 +1,8 @@
-import {Box, Button, Container, Paper, TextField} from "@mui/material";
+import {Box, Button, Container, Paper, TextField, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Post.css";
 import Header from "./Header";
+import {getTheme} from "../styles/themes/themes";
 
 
 function Post() {
@@ -36,19 +37,24 @@ function Post() {
             })
         }
     }
+
+    const currTheme = getTheme();
+
     return (
-        <div>
-            <Header/>
-            <Paper elevation = {3} style={paperStyle}>
-                <h1 style = {{color: 'salmon'}} className="center"> Post</h1>
-                <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="Post Message" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
-                </Box>
-                <div className="center">
-                    <Button id = "post" variant="contained" color = "primary" onClick={handleClick}>SUBMIT</Button>
-                </div>
+        <ThemeProvider theme={currTheme}>
+            <Paper style = {{height: '100vh'}}>
+                <Header/>
+                <Paper elevation = {3} style={paperStyle}>
+                    <h1 className="center"> Post</h1>
+                    <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
+                        <TextField id="outlined-basic" label="Post Message" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
+                    </Box>
+                    <div className="center">
+                        <Button id = "post" variant="contained" color = "primary" onClick={handleClick}>SUBMIT</Button>
+                    </div>
+                </Paper>
             </Paper>
-        </div>
+        </ThemeProvider>
     );
 }
 

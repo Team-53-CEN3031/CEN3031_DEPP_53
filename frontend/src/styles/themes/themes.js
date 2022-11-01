@@ -34,4 +34,14 @@ const darkTheme = createTheme({
     }
 });
 
-export {lightTheme, darkTheme};
+const getTheme = () => {
+    if(localStorage.getItem('theme') === 'light') {
+        return lightTheme;
+    } else if (localStorage.getItem('theme') === 'dark') {
+        return darkTheme;
+    } else {
+        return lightTheme;
+    }
+}
+
+export {lightTheme, darkTheme, getTheme};

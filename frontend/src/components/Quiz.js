@@ -1,4 +1,3 @@
-import "../styles/SignUp.css";
 import {Box, Button, Container, Icon, Paper, TextField} from "@mui/material";
 import React, {useState} from "react"
 import { Questions } from "../components/QuestionBank.js";
@@ -56,7 +55,7 @@ const handleSubmit = (event) => {
 }
 
     return (
-        <div className="Quiz">
+        <div>
             <Paper elevation = {3} style={paperStyle}>
                 <h1>Enviro Quiz</h1>
                 <h2>Take the quiz now to find out your carbon footprint!</h2>

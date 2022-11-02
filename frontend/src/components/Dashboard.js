@@ -95,9 +95,9 @@ function Dashboard() {
 
     return (
         <ThemeProvider theme={currTheme}>
-            <Paper style = {{minHeight: '100vh'}}>
+            <Paper style = {{minHeight: '100vh', display:'flex', flexDirection:'column'}}>
                 <Header/>
-                <Paper className="dashboard">
+                <Paper className="dashboard" style={paperStyle}>
                     <Paper elevation = {3} className="header">
                         HELLO {username}
                         <Button id = "change_theme" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Change Theme</Button>

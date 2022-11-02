@@ -54,6 +54,24 @@ function Quiz(){
             score+= 166
         }
         setScore(score);
+        let quizRes = {
+            userToken: localStorage.getItem("jwtToken"),
+            electricityScore: responses.question0,
+            gasScore: responses.question1,
+            oilScore: responses.question2,
+            milesDriven: responses.question3,
+            shortFlights: responses.question4,
+            longFlights: responses.question5,
+            recyclePaper: responses.question6,
+            recycleMetal: responses.question7,
+        }
+        fetch("http://localhost:8080/api/quiz/add", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(quizRes)
+        }).then((res)=>{
+            //The quiz score is being sent to API
+        })
     }
 
     const currTheme = getTheme();

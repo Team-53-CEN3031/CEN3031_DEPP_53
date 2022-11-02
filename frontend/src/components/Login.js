@@ -68,13 +68,13 @@ function Login() {
         }
         if (e.target.id === 'signupbutton') {
             e.preventDefault();
-            if(validPassword(passwordS)) {
+            if(!validPassword(passwordS)) {
                 return;
             }
-            if(validEmail(emailS)) {
+            if(!validEmail(emailS)) {
                 return;
             }
-            const user = {nameS,emailS,passwordS};
+            const user = {name: nameS,email: emailS,password: passwordS};
             fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -107,7 +107,7 @@ function Login() {
 
     function validEmail(email) {
         //Check if email is valid
-        return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        return email.match(/^\S+@\S+\.\S+$/)
     }
 
     function validPassword(pass) {

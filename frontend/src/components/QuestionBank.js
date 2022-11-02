@@ -6,5 +6,5 @@ export const Questions = [
     "How many flights (< 4 hours) have you taken this year",
     "How many flights (> 4 hours) have you taken this year",
     "Do you recycle paper?",
-    "Do you recycle alluminum and tin ?",
+    "Do you recycle aluminum and tin ?",
 ]

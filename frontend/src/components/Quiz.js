@@ -1,9 +1,11 @@
-import {Box, Button, Container, Icon, Paper, TextField} from "@mui/material";
+import {Box, Button, Container, Icon, Paper, TextField, ThemeProvider} from "@mui/material";
 import React, {useState} from "react"
 import { Questions } from "../components/QuestionBank.js";
 import HomeIcon from '@mui/icons-material/Home';
 import FlightIcon from '@mui/icons-material/Flight';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {getTheme} from "../styles/themes/themes";
+import Header from "./Header";
 
 
 function Quiz(){
@@ -54,8 +56,12 @@ const handleSubmit = (event) => {
     setScore(score);
 }
 
+const currTheme = getTheme();
+
     return (
-        <div>
+        <ThemeProvider theme={currTheme}>
+            <Paper style = {{minHeight: '100vh'}}>
+                <Header/>
             <Paper elevation = {3} style={paperStyle}>
                 <h1>Enviro Quiz</h1>
                 <h2>Take the quiz now to find out your carbon footprint!</h2>
@@ -90,7 +96,8 @@ const handleSubmit = (event) => {
                     <h2>{score}</h2>
                 </div>
             </Paper>
-        </div>
+            </Paper>
+        </ThemeProvider>
     )
 }
 

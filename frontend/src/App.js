@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Post from "./components/Post";
 import Quiz from "./components/Quiz"
+import AddQuiz from "./components/AddQuiz"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/post" element = {<Post/>}/>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
+                    <Route path="/addquiz" element={<AddQuiz />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -16,7 +16,17 @@ following properties:
 
 `spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect`
 
-Replace the asterisks with your database url, username and password.
+`fourm.app.jwtSecret=****`
+
+`fourm.app.jwtExpirationMs=****`
+
+`security.user.name=****`
+
+`security.user.password=****`
+
+`security.user.role=****`
+
+Replace the asterisks with required information
 
 
 

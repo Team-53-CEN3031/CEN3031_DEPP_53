@@ -3,6 +3,7 @@ import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Post from "./components/Post";
+import Quiz from "./components/Quiz"
 
 
 function App() {
@@ -12,12 +13,14 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/dashboard" element={<Dashboard/>}/>
+                    <Route path="/quiz" element={<Quiz />} />
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/post" element = {<Post/>}/>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>
             </BrowserRouter>
         </div>
+        
     );
 }
 

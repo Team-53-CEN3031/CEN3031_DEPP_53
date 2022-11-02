@@ -1,14 +1,12 @@
-import {Box, Button, Container, Paper, TextField} from "@mui/material";
+import {Box, Button, Container, Paper, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
 import {useSelector} from "react-redux";
 import authToken from "../utils/authToken";
-/*
-    * This function is used to print the date in a readable format
-    * @param date (String) - date in ISO format
-    * @return (String) - date in readable format
-    * Removes the time from the date
- */
+import Header from "./Header";
+
+const {getTheme} = require("../styles/themes/themes.js");
+
 function printDate(d) {
     if(d == null) {
         return 'Unknown';
@@ -16,23 +14,47 @@ function printDate(d) {
         return d.substring(0,10);
     }
 }
+
 function Dashboard() {
     const[username,setUsername] = useState('')
 
     // paperStyle is used to style the paper component
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
-
     //users is retrieved from the backend and is used to display the list of users and their registration dates
     const[users,setUsers] = useState([])
+    const[posts,setPosts] = useState([])
+
+    const handleClick=(e)=> {
+        if(e.target.id === 'change_theme') {
+            e.preventDefault();
+            if(localStorage.getItem('theme') === 'light') {
+                localStorage.setItem('theme', 'dark');
+            } else if (localStorage.getItem('theme') === 'dark') {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+            window.location.reload();
+        }
+    }
+
+    const currTheme = getTheme();
+
     useEffect(()=>{
         /*
-        This function is used to retrieve the list of users from the backend
-        It is called when the page is loaded
-         */
+      This function is used to retrieve the list of users from the backend
+      It is called when the page is loaded
+       */
         fetch("http://localhost:8080/api/user/getAll")
             .then(res=>res.json())
             .then((result)=>{
                     setUsers(result);
+                }
+            )
+        fetch("http://localhost:8080/api/post/getAll")
+            .then(res=>res.json())
+            .then((result)=>{
+                    setPosts(result);
                 }
             )
         if (localStorage.jwtToken) {
@@ -64,32 +86,61 @@ function Dashboard() {
                 });
             })
         }
+
+        if(localStorage.getItem('theme') === null) {
+            localStorage.setItem('theme', 'light');
+        }
+
     },[])
+
     return (
-        <div className="dashboard">
-            <div className="header">
-                HELLO {username}
-            </div>
-            <Container>
-                {/*Paper component is used to style the form
+        <ThemeProvider theme={currTheme}>
+            <Paper style = {{minHeight: '100vh'}}>
+                <Header/>
+                <Paper className="dashboard">
+                    <Paper elevation = {3} className="header">
+                        HELLO {username}
+                        <Button id = "change_theme" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Change Theme</Button>
+                    </Paper>
+                    <div className="userpostcontainer">
+                        <Container>
+                            {/*Paper component is used to style the form Paper is just a container with a shadow */}
+                            <Paper elevation={3} style={paperStyle}>
+                                Users
+                                {/* This is used to display the list of users and their registration dates map is used to iterate through the list of users given by the backend  */}
+                                {users.map(user=>(
+                                    <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={user.id}>
+                                        Name: {user.name}<br/>
+                                        Date: {printDate(user.registrationDate)} <br/>
+                                        Email : {user.email} <br/>
+                                    </Paper>
+                                ))}
+                            </Paper>
+                        </Container>
+                        <Container>
+                            {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
-                <Paper elevation={3} style={paperStyle}>
-                    {/*
+                            <Paper elevation={3} style={paperStyle}>
+                                Posts
+                                {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend
                     */}
-                    {users.map(user=>(
-                        <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={user.id}>
-                            Name: {user.name}<br/>
-                            Date: {printDate(user.registrationDate)} <br/>
-                            Email : {user.email} <br/>
-                            Password : {user.password}
-                        </Paper>
-                    ))}
+                                {posts.map(post=>(
+                                    <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
+                                        PostID: {post.postId}<br/>
+                                        PosterID: {post.posterId}<br/>
+                                        Date: {printDate(post.postTime)} <br/>
+                                        Message : {post.postMessage} <br/>
+                                    </Paper>
+                                ))}
+                            </Paper>
+                        </Container>
+                    </div>
                 </Paper>
-            </Container>
-        </div>
+            </Paper>
+        </ThemeProvider>
     );
 }
 

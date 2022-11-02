@@ -18,3 +18,9 @@
     height: 10%;
     background-color: #e2e2e2;
 }
+
+.userpostcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

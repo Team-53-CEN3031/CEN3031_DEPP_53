@@ -161,7 +161,7 @@ public class AuthController {
      */
     @PostMapping("/validateJWT")
     @ResponseBody
-    public String validateJwtToken(@RequestBody String token) {
+    public ResponseEntity<?> validateJwtToken(@RequestBody String token) {
         Long[] data = getJwtTokenData(token);
         //Create a new date object (issued at)
         Date d1 = new Date(data[1] * 1000L);
@@ -178,9 +178,9 @@ public class AuthController {
         //There's almost definitely a vulnerability here, but I'm not sure what it is
         //-Zachary
         if(testToken.equals(token)){
-            return "200";
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return "401";
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -237,7 +237,7 @@ public class AuthController {
     @ResponseBody
     public String getUsername(@RequestBody String token) {
         //Check if token is valid
-        if(validateJwtToken(token).equals("401")){
+        if(validateJwtToken(token).getStatusCode() == HttpStatus.OK){
             return null;
         }
         Long[] data = getJwtTokenData(token);

@@ -17,7 +17,6 @@ function Login() {
     let signup = false;
 
     function login(user) {
-        console.log(user);
         fetch("http://localhost:8080/api/auth/getJWT", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -55,7 +54,6 @@ function Login() {
             }
             const name = null;
             const user = {name,email: emailP,password: passwordP};
-            console.log(user);
             fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},

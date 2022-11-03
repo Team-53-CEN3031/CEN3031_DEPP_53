@@ -1,11 +1,16 @@
 import "./AddQuiz.css";
 
-import {Box, Button, Container, Paper, TextField} from "@mui/material";
+import {Box, Button, Container, Icon, Paper, TextField, ThemeProvider} from "@mui/material";
 import React, {useState} from "react"
 import {AddQuestions } from "../components/QuestionBank.js";
+import {getTheme} from "../styles/themes/themes";
+import Header from "./Header";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import HomeIcon from "@mui/icons-material/Home";
 
 function AddQuiz(){
 //use state to keep the current question and the score of the user
+    const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
     const [currQuestion, setCurrQuestion] = useState(0);
     const [score, setScore] = useState(0);
     const [results,setResults] = useState(false);
@@ -46,9 +51,15 @@ function AddQuiz(){
         window.location.replace("http://localhost:3000/addquiz");
     };
 
+    const currTheme = getTheme();
+
     return (
+        <ThemeProvider theme={currTheme}>
+            <Paper style = {{minHeight: '100vh'}}>
+                <Header/>
+                <Paper elevation = {3} style={paperStyle}>
         <div className="AddQuiz">
-            <h1>Do You Recycle Properly? Quiz</h1>
+            <h1>Do You Recycle Properly?</h1>
             <h2>Take the quiz now to find out..</h2>
 
             <div className="ShowResults">
@@ -70,21 +81,17 @@ function AddQuiz(){
                     })}
                 </ul>
             </div>
-
-            <div className="redirect">
-
-                <button onClick={restart}>
-                    Restart
+                <button
+                        onClick={restart}
+                        className="redirect"
+                    >
+                    <h2><RestartAltIcon/>restart</h2>
                 </button>
-                &nbsp;
-
-                <button  onClick={redirectHomePage}>
-                    Homepage
-                </button>
-
-            </div>
 
         </div>
+                </Paper>
+            </Paper>
+        </ThemeProvider>
 
     )
 }

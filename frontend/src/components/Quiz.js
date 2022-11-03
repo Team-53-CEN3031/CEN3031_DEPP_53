@@ -94,6 +94,9 @@ function Quiz(){
                         <button onClick={handleSubmit}>Submit Quiz</button>
                         <h2>Your carbon emission footprint is:</h2>
                         <h2>{score}</h2>
+
+                        <h3>Are you recycling properly? Find out now</h3>
+                        <button onClick={redirectAddQuiz}>Take Quiz</button>
                     </div>
                 </Paper>
             </Paper>

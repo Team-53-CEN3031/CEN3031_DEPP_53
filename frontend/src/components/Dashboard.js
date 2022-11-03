@@ -16,7 +16,6 @@ function printDate(d) {
 }
 
 function Dashboard() {
-    const[username,setUsername] = useState('')
 
     // paperStyle is used to style the paper component
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
@@ -68,22 +67,6 @@ function Dashboard() {
                 if(res.status === 401) {
                     localStorage.removeItem('jwtToken');
                 }
-                fetch("http://localhost:8080/api/auth/getUsername", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: localStorage.jwtToken
-                }).then((res2)=>{
-                    //Open ReadableStream
-                    const reader = res2.body.getReader();
-                    // Read the data
-                    reader.read().then(({done, value}) => {
-                        const str = new TextDecoder("utf-8").decode(value);
-                        if(str == null) {
-                            setUsername('');
-                        }
-                        setUsername(str);
-                    });
-                });
             })
         }
 
@@ -99,7 +82,6 @@ function Dashboard() {
                 <Header/>
                 <Paper className="dashboard" style={paperStyle}>
                     <Paper elevation = {3} className="header">
-                        HELLO {username}
                         <Button id = "change_theme" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Change Theme</Button>
                     </Paper>
                     <div className="userpostcontainer">

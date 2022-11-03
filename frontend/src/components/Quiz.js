@@ -55,6 +55,11 @@ function Quiz(){
         }
         setScore(score);
     }
+        
+    const redirectAddQuiz = () =>
+    {
+        window.location.replace("http://localhost:3000/addquiz");
+    };
 
     const currTheme = getTheme();
 

@@ -9,7 +9,6 @@ export const Questions = [
     "Do you recycle aluminum and tin ?",
 ]
 
-
 export const AddQuestions = [
 
     {
@@ -40,21 +39,48 @@ export const AddQuestions = [
         ],
     },
     {
-        text: "What type of Quiz do you want",
+        text: "If you're unsure if a product is recyclable, you should...",
         options: [
-            { id: 0, text: "How to Recycle quiz", isCorrect: false },
-            { id: 1, text: "Do you recyce correctly", isCorrect: true },
-            { id: 2, text: "How environmental friendly are you?", isCorrect: false },
-            { id: 3, text: "Flappy Bird but with carbon leaving earth instead of bird/tubes", isCorrect: false },
+            { id: 0, text: "Throw it into the recycle bin", isCorrect: false },
+            { id: 1, text: "Do not curbside recycle,call an nearby center", isCorrect: true },
+            { id: 2, text: "Clean the product and place it in a bag prior to recycling", isCorrect: false },
+            { id: 3, text: "Remove any caps or lid before placing it into the recycling bin", isCorrect: false },
         ],
     },
     {
-        text: "Does Zach Tyson Recycle?",
+        text: "Which Item would you place in the recycle bin",
         options: [
-            {id: 0, text: "Yes, he's a living role model", isCorrect: false},
-            {id: 1, text: "No, He's a piece of Shit", isCorrect: true},
-            {id: 2, text: "Who is zach?", isCorrect: true},
-            {id: 3, text: "MIKE TYSON SON? Yes", isCorrect: false},
+            {id: 0, text: "Holiday lights!", isCorrect: false},
+            {id: 1, text: "milk jugs in a plastic bag", isCorrect: true},
+            {id: 2, text: "Ceramic jars", isCorrect: false},
+            {id: 3, text: "None of the above", isCorrect: true},
+        ],
+    },
+    {
+        text: "Most common recyclable items in the US are ....",
+        options: [
+            { id: 0, text: "Glass", isCorrect: false },
+            { id: 1, text: "Paper and Cardboard", isCorrect: false },
+            { id: 2, text: "Steel, tin, and aluminum cans", isCorrect: false },
+            { id: 3, text: "All of the above", isCorrect: true },
+        ],
+    },
+    {
+        text: "Why  are paper towels, napkins and tissues not recyclable?",
+        options: [
+            { id: 0, text: "Their fabric fibers are shorten", isCorrect: false },
+            { id: 1, text: "They are covered in food or chemicals ", isCorrect: false },
+            { id: 2, text: "They already have been recycled", isCorrect: false },
+            { id: 3, text: "All of the above", isCorrect: true },
+        ],
+    },
+    {
+        text: "If an Item is recyclable from a nearby recycling center, you can",
+        options: [
+            { id: 0, text: "Place it into your recycling bin", isCorrect: false },
+            { id: 1, text: "Leave a note for curbside recycling team", isCorrect: false },
+            { id: 2, text: "Place it into you're neighbor's recycling bin", isCorrect: false },
+            { id: 3, text: "Recycle the item by the recycling center's recommendation", isCorrect: true },
         ],
     },
 

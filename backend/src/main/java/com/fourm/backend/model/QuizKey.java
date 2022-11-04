@@ -1,5 +1,7 @@
 package com.fourm.backend.model;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -7,10 +9,13 @@ import java.util.Objects;
 
 public class QuizKey implements Serializable {
     private Timestamp quizDate;
-    private int user_id;
+
+    //user_id is a foreign key
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserPerson user;
 
     public QuizKey() {
-
     }
 
     @Override
@@ -23,12 +28,12 @@ public class QuizKey implements Serializable {
         if (quizDate != quizKey.quizDate) {
             return false;
         }
-        return user_id == quizKey.user_id;
+        return user.getId() == quizKey.user.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(quizDate, user_id);
+        return Objects.hash(quizDate, user.getId());
     }
 
     public Timestamp getQuizDate() {
@@ -39,11 +44,11 @@ public class QuizKey implements Serializable {
         this.quizDate = quizDate;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public UserPerson getUser() {
+        return user;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(UserPerson user) {
+        this.user = user;
     }
 }

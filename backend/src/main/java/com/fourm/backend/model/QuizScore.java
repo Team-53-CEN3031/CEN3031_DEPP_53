@@ -1,6 +1,7 @@
 package com.fourm.backend.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class QuizScore {
@@ -34,7 +35,7 @@ public class QuizScore {
     @Column(name = "recycle_metal")
     private boolean recycleMetal;
 
-    QuizKey getQuizKey() {
+    public QuizKey getQuizKey() {
         return quizKey;
     }
 

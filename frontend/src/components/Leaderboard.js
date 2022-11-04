@@ -45,7 +45,8 @@ function About() {
                     setQuizzes(result);
                 }
             )
-
+        //For some reason, the code doesn't work if it is imported from another file
+        //Likely due to async issues
         if (localStorage.jwtToken) {
             authToken(localStorage.jwtToken);
             //header = Authorization: Bearer ${localStorage.jwtToken}

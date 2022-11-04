@@ -1,13 +1,15 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useParams} from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Post from "./components/Post";
 import Quiz from "./components/Quiz"
 import Leaderboard from "./components/Leaderboard";
+import Users from "./components/Users";
 
 
 function App() {
+
     return (
         <div>
             <BrowserRouter>
@@ -19,6 +21,7 @@ function App() {
                     <Route path="/post" element = {<Post/>}/>
                     <Route path="/about" element={<h1>Not made yet</h1>}/>
                     <Route path="/leaderboard" element={<Leaderboard/>}/>
+                    <Route path="/user/:id" element={<Users/>}/>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>
             </BrowserRouter>

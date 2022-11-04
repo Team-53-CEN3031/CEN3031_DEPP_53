@@ -13,13 +13,22 @@ function printDate(d) {
 }
 
 function Users(props) {
-    const {id} = useParams();
+    let {id} = useParams();
     const[user,setUser] = useState('')
     useEffect(()=>{
+        if(isNaN(id)) {
+            //User entered non integer value for id
+            window.location.href = "/404";
+        }
+        id = parseInt(id);
+        console.log(id);
         fetch("http://localhost:8080/api/user/get/"+id)
             .then(res=>res.json())
             .then((result)=>{
                     setUser(result);
+                    if(result.id === -1) {
+                        window.location.href = "/404";
+                    }
                 }
             )
         if (localStorage.jwtToken) {

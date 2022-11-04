@@ -11,4 +11,5 @@ public interface UserService {
     //getAllUsers is a method that is used to get all the users from the database and return them as a list
     public List<UserPerson> getAllUsers();
 
+    UserPerson getUser(int id);
 }

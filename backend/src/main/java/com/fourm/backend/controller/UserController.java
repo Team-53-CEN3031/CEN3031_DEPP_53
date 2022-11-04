@@ -61,4 +61,11 @@ public class UserController {
         return x;
     }
 
+    @GetMapping("/get/{id}")
+    public UserPerson getUser(@PathVariable("id") int id) {
+        UserPerson userPerson = userService.getUser(id);
+        userPerson.setPassword("");
+        return userPerson;
+    }
+
 }

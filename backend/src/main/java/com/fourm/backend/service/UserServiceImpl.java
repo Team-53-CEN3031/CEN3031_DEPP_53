@@ -41,4 +41,12 @@ public class UserServiceImpl implements UserService {
     public List<UserPerson> getAllUsers() {
         return userRepository.findAll();
     }
+
+    //Query to get a user by id
+    @Override
+    public UserPerson getUser(int id) {
+        UserPerson p = userRepository.findById(id).get();
+        p.setPassword("");
+        return p;
+    }
 }

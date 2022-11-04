@@ -45,8 +45,11 @@ public class UserServiceImpl implements UserService {
     //Query to get a user by id
     @Override
     public UserPerson getUser(int id) {
-        UserPerson p = userRepository.findById(id).get();
-        p.setPassword("");
+        //Get the user by id but return null if the user is not found
+        UserPerson p = userRepository.findById(id).orElse(null);
+        if(p != null){
+            p.setPassword("");
+        }
         return p;
     }
 }

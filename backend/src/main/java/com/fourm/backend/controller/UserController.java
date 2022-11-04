@@ -64,8 +64,15 @@ public class UserController {
     @GetMapping("/get/{id}")
     public UserPerson getUser(@PathVariable("id") int id) {
         UserPerson userPerson = userService.getUser(id);
-        userPerson.setPassword("");
-        return userPerson;
+        if(userPerson != null){
+            userPerson.setPassword("");
+            return userPerson;
+        } else {
+            UserPerson unknownUser = new UserPerson();
+            unknownUser.setName("Unknown");
+            unknownUser.setId(-1);
+            return unknownUser;
+        }
     }
 
 }

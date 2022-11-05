@@ -18,20 +18,6 @@ function About() {
     //quizzes is retrieved from the backend and is used to display the list of quizzes and their registration dates
     const[quizzes,setQuizzes] = useState([])
 
-    const handleClick=(e)=> {
-        if(e.target.id === 'change_theme') {
-            e.preventDefault();
-            if(localStorage.getItem('theme') === 'light') {
-                localStorage.setItem('theme', 'dark');
-            } else if (localStorage.getItem('theme') === 'dark') {
-                localStorage.setItem('theme', 'light');
-            } else {
-                localStorage.setItem('theme', 'dark');
-            }
-            window.location.reload();
-        }
-    }
-
     const currTheme = getTheme();
 
     useEffect(()=>{
@@ -72,9 +58,6 @@ function About() {
             <Paper style = {{minHeight: '100vh', display:'flex', flexDirection:'column'}}>
                 <Header/>
                 <Paper className="dashboard" style={paperStyle}>
-                    <Paper elevation = {3} className="header">
-                        <Button id = "change_theme" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Change Theme</Button>
-                    </Paper>
                     <div className="userpostcontainer">
                         <Container>
                             <Paper elevation={3} style={paperStyle}>

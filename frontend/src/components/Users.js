@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import authToken from "../utils/authToken";
+import {validateJWT} from "../utils/authToken";
 import {Paper, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
@@ -31,19 +31,7 @@ function Users(props) {
                     }
                 }
             )
-        if (localStorage.jwtToken) {
-            authToken(localStorage.jwtToken);
-            //header = Authorization: Bearer ${localStorage.jwtToken}
-            fetch("http://localhost:8080/api/auth/validateJWT", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: localStorage.jwtToken
-            }).then((res)=>{
-                if(res.status === 401) {
-                    localStorage.removeItem('jwtToken');
-                }
-            })
-        }
+        validateJWT();
 
         if(localStorage.getItem('theme') === null) {
             localStorage.setItem('theme', 'light');

@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import authToken from "../utils/authToken";
+import {validateJWT} from "../utils/authToken";
 import "../styles/General.css";
 import "../styles/Header.css";
 import {Button, Container, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
@@ -8,20 +8,7 @@ import {getTheme} from "../styles/themes/themes";
 
 function Header() {
     useEffect(()=>{
-        if (localStorage.jwtToken) {
-            authToken(localStorage.jwtToken);
-            //header = Authorization: Bearer ${localStorage.jwtToken}
-            fetch("http://localhost:8080/api/auth/validateJWT", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: localStorage.jwtToken
-            }).then((res)=>{
-                if(res.status === 401) {
-                    localStorage.removeItem('jwtToken');
-                }
-
-            })
-        }
+        validateJWT();
     },[])
 
     const currTheme = getTheme();

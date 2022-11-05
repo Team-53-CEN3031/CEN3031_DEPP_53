@@ -2,7 +2,7 @@ import {Box, Button, Container, Paper, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
 import {useSelector} from "react-redux";
-import authToken from "../utils/authToken";
+import {validateJWT} from "../utils/authToken";
 import Header from "./Header";
 
 const {getTheme} = require("../styles/themes/themes.js");
@@ -31,21 +31,7 @@ function About() {
                     setQuizzes(result);
                 }
             )
-        //For some reason, the code doesn't work if it is imported from another file
-        //Likely due to async issues
-        if (localStorage.jwtToken) {
-            authToken(localStorage.jwtToken);
-            //header = Authorization: Bearer ${localStorage.jwtToken}
-            fetch("http://localhost:8080/api/auth/validateJWT", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: localStorage.jwtToken
-            }).then((res)=>{
-                if(res.status === 401) {
-                    localStorage.removeItem('jwtToken');
-                }
-            })
-        }
+        validateJWT();
 
         if(localStorage.getItem('theme') === null) {
             localStorage.setItem('theme', 'light');

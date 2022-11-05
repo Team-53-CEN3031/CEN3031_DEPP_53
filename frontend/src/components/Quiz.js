@@ -1,14 +1,21 @@
 import {Box, Button, Container, Icon, Paper, TextField, ThemeProvider} from "@mui/material";
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import { Questions } from "../components/QuestionBank.js";
 import HomeIcon from '@mui/icons-material/Home';
 import FlightIcon from '@mui/icons-material/Flight';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {getTheme} from "../styles/themes/themes";
 import Header from "./Header";
+import {validateJWT} from "../utils/authToken";
 
 
 function Quiz(){
+
+    useEffect(()=>{
+        if(!validateJWT()) {
+            window.location.href = "/login";
+        }
+    },[])
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
     const [score, setScore] = useState(0);
 

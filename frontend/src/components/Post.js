@@ -17,7 +17,9 @@ function Post() {
     }
 
     useEffect(()=>{
-        validateJWT();
+        if (!validateJWT()) {
+            window.location.href = "/login";
+        }
     },[])
 
     const handleClick=(e)=> {

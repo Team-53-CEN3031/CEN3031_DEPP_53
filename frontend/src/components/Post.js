@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import "../styles/Post.css";
 import Header from "./Header";
 import {getTheme} from "../styles/themes/themes";
+import {validateJWT} from "../utils/authToken";
 
 
 function Post() {
@@ -14,6 +15,10 @@ function Post() {
     function post(postMessage) {
 
     }
+
+    useEffect(()=>{
+        validateJWT();
+    },[])
 
     const handleClick=(e)=> {
         // Check source of event

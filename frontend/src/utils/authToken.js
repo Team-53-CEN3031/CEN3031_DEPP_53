@@ -8,4 +8,24 @@ const authToken = (token) => {
     }
 };
 
-export default authToken;
+const validateJWT = () => {
+    if (localStorage.jwtToken) {
+        authToken(localStorage.jwtToken);
+        //header = Authorization: Bearer ${localStorage.jwtToken}
+        fetch("http://localhost:8080/api/auth/validateJWT", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: localStorage.jwtToken
+        }).then((res)=>{
+            if(res.status === 401) {
+                localStorage.removeItem('jwtToken');
+                return false;
+            }
+        })
+        return true;
+    }
+    return false;
+}
+
+//Export validateJWT
+export {validateJWT};

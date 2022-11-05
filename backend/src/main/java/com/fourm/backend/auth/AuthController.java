@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.sound.midi.SysexMessage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -173,7 +174,17 @@ public class AuthController {
         //Checks if the token is valid
         //There's a chance that the token is valid, but the user is not in the database
         //This is because the user could have been deleted from the database
-        //TODO: Check if the user is in the database
+        UserPerson user = userService.getUser(Math.toIntExact(data[0]));
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+
+        //Check token expiration compared to current time
+        if(d2.before(new Date())){
+            //Return status code 401
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         //There's almost definitely a vulnerability here, but I'm not sure what it is
         //-Zachary

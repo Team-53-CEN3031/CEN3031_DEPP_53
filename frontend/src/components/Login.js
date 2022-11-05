@@ -2,6 +2,7 @@ import {Box, Button, Container, Paper, TextField, ThemeProvider} from "@mui/mate
 import {useEffect, useState} from "react";
 import "../styles/Login.css";
 import Header from "./Header";
+import {validateJWT} from "../utils/authToken";
 const {getTheme} = require("../styles/themes/themes.js");
 
 function Login() {
@@ -15,6 +16,10 @@ function Login() {
     const[passwordP, setPasswordP] = useState('');
     const[errorDiv, setErrorDiv] = useState(<div/>);
     let signup = false;
+
+    if(validateJWT()) {
+        window.location.href = "/dashboard";
+    }
 
     function login(user) {
         fetch("http://localhost:8080/api/auth/getJWT", {
@@ -31,6 +36,7 @@ function Login() {
                     return;
                 }
                 localStorage.setItem('jwtToken', str);
+                window.location.href = "/dashboard";
             });
         })
     }

@@ -6,6 +6,7 @@ import Post from "./components/Post";
 import Quiz from "./components/Quiz"
 import Leaderboard from "./components/Leaderboard";
 import Users from "./components/Users";
+import Settings from "./components/Settings";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/about" element={<h1>Not made yet</h1>}/>
                     <Route path="/leaderboard" element={<Leaderboard/>}/>
                     <Route path="/user/:id" element={<Users/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>
             </BrowserRouter>

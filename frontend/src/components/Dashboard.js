@@ -23,20 +23,6 @@ function Dashboard() {
     const[users,setUsers] = useState([])
     const[posts,setPosts] = useState([])
 
-    const handleClick=(e)=> {
-        if(e.target.id === 'change_theme') {
-            e.preventDefault();
-            if(localStorage.getItem('theme') === 'light') {
-                localStorage.setItem('theme', 'dark');
-            } else if (localStorage.getItem('theme') === 'dark') {
-                localStorage.setItem('theme', 'light');
-            } else {
-                localStorage.setItem('theme', 'dark');
-            }
-            window.location.reload();
-        }
-    }
-
     const currTheme = getTheme();
 
     useEffect(()=>{
@@ -70,20 +56,13 @@ function Dashboard() {
             })
         }
 
-        if(localStorage.getItem('theme') === null) {
-            localStorage.setItem('theme', 'light');
-        }
-
     },[])
 
     return (
         <ThemeProvider theme={currTheme}>
             <Paper style = {{minHeight: '100vh', display:'flex', flexDirection:'column'}}>
                 <Header/>
-                <Paper className="dashboard" style={paperStyle}>
-                    <Paper elevation = {3} className="header">
-                        <Button id = "change_theme" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Change Theme</Button>
-                    </Paper>
+                <Paper className="dashboard" >
                     <div className="userpostcontainer">
                         <Container>
                             {/*Paper component is used to style the form Paper is just a container with a shadow */}

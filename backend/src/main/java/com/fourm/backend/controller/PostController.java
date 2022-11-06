@@ -91,4 +91,15 @@ public class PostController {
         }
         return results;
     }
+
+    @GetMapping("/getPost/{id}")
+    public Post getPost(@PathVariable("id") int id) {
+        List<Post> posts = postService.getAllPosts();
+        for(Post p : posts) {
+            if(p.getPostId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 }

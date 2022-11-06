@@ -2,6 +2,7 @@ package com.fourm.backend.controller;
 
 import com.fourm.backend.model.Post;
 import com.fourm.backend.model.PostPrototype;
+import com.fourm.backend.model.QuizScore;
 import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.PostService;
 import com.fourm.backend.service.UserService;
@@ -77,5 +78,17 @@ public class PostController {
             p.getUser().setPassword("");
         }
         return posts;
+    }
+
+    @GetMapping("/getPostsFrom/{id}")
+    public List<Post> getUser(@PathVariable("id") int id) {
+        List<Post> posts = postService.getAllPosts();
+        List<Post> results = new java.util.ArrayList<>();
+        for(Post p : posts) {
+            if(p.getUser().getId() == id) {
+                results.add(p);
+            }
+        }
+        return results;
     }
 }

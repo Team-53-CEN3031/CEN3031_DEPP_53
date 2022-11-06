@@ -87,4 +87,23 @@ public class QuizController {
         return quizService.getAllQuizzes();
     }
 
+    @GetMapping("/get/{date}")
+    public List<QuizScore> getLeaderboardDate(@PathVariable("date") String date) {
+        //date is in format YYYY-MM-DD
+        List<QuizScore> quizScores = quizService.getAllQuizzes();
+        //convert date to timestamp
+        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(date + " 00:00:00");
+        //empty list to store results
+        List<QuizScore> results = new java.util.ArrayList<>();
+        //iterate over all quizzes and add to selected if date matches
+        for(QuizScore q : quizScores) {
+            //if the date of the quiz (time not included) matches the date given
+            if(q.getQuizKey().getQuizDate().toLocalDateTime().toLocalDate().equals(timestamp.toLocalDateTime().toLocalDate())) {
+                q.getQuizKey().getUser().setPassword("");
+                results.add(q);
+            }
+        }
+        return results;
+    }
+
 }

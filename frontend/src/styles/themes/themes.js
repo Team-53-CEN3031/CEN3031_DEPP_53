@@ -12,8 +12,9 @@ const lightTheme = createTheme({
         secondary: {
             main: '#00308F',
         },
-        background: {
-            default: '#fff',
+        //font color
+        text: {
+            primary: '#164C27',
         }
     }
 });

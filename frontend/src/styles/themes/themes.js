@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { MuiThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 //Create two themes, one for light mode and one for dark mode
 
@@ -44,4 +43,4 @@ const getTheme = () => {
     }
 }
 
-export {lightTheme, darkTheme, getTheme};
+export {getTheme};

@@ -3,6 +3,7 @@ import {validateJWT} from "../utils/authToken";
 import {Paper, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
+import Header from "./Header";
 
 function printDate(d) {
     if(d == null) {
@@ -41,8 +42,9 @@ function Users(props) {
 
     const currTheme = getTheme();
     return (
-        <ThemeProvider theme={currTheme}>
-            <Paper style = {{minHeight: '100vh', display:'flex', flexDirection:'column'}}>
+        <ThemeProvider theme={currTheme} style = {{height: '100vh'}}>
+            <Header/>
+            <Paper style = {{ display:'flex', flexDirection:'column'}}>
                 <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} >
                     Name: {user.name}
                 </Paper>

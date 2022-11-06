@@ -7,6 +7,7 @@ import Quiz from "./components/Quiz"
 import Leaderboard from "./components/Leaderboard";
 import Users from "./components/Users";
 import Settings from "./components/Settings";
+import About from "./components/About";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
                     <Route path="/quiz" element={<Quiz />} />
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/post" element = {<Post/>}/>
-                    <Route path="/about" element={<h1>Not made yet</h1>}/>
+                    <Route path="/about" element={<About/>}/>
                     <Route path="/leaderboard" element={<Leaderboard/>}/>
                     <Route path="/user/:id" element={<Users/>}/>
                     <Route path="/settings" element={<Settings/>}/>

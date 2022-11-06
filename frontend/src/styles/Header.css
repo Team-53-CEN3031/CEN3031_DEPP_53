@@ -4,14 +4,15 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 15vh;
+    height: 17vh;
 }
 
 .top {
-    height: 8vh;
+    height: 10vh;
     display: flex;
     flex-direction: row;
     width: 100%;
+    flex: 1;
 }
 
 /* split top part into three parts: left, middle, right */

@@ -1,9 +1,10 @@
-import {Box, Button, Container, Paper, ThemeProvider} from "@mui/material";
+import {Box, Button, Container, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
 import {useSelector} from "react-redux";
 import {validateJWT} from "../utils/authToken";
 import Header from "./Header";
+import PortraitIcon from '@mui/icons-material/Portrait';
 
 const {getTheme} = require("../styles/themes/themes.js");
 
@@ -46,18 +47,15 @@ function Dashboard() {
                     <Paper className="dashboard" >
                         <div className="userpostcontainer">
                             <Container>
-                                {/*Paper component is used to style the form
-                Paper is just a container with a shadow
-                */}
+                                {/*Paper component is used to style the form  Paper is just a container with a shadow */}
                                 <Paper elevation={3} style={paperStyle}>
                                     Posts
-                                    {/*
-                    This is used to display the list of users and their registration dates
-                    map is used to iterate through the list of users given by the backend
-                    */}
+                                    {/* This is used to display the list of users and their registration dates map is used to iterate through the list of users given by the backend */}
                                     {posts.map(post=>(
-                                        <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
-                                            Poster: {post.user.name}<br/>
+                                        <Paper elevation={2} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
+                                            <MenuItem component={Link} href = {"/user/"+post.user.id} >
+                                                <PortraitIcon/> &nbsp; { post.user.name}<br/>
+                                            </MenuItem>
                                             Date: {printDate(post.postTime)} <br/>
                                             Message : {post.postMessage} <br/>
                                         </Paper>

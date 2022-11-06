@@ -92,7 +92,13 @@ public class QuizController {
         //date is in format YYYY-MM-DD
         List<QuizScore> quizScores = quizService.getAllQuizzes();
         //convert date to timestamp
-        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(date + " 00:00:00");
+        java.sql.Timestamp timestamp;
+        try {
+            timestamp = java.sql.Timestamp.valueOf(date + " 00:00:00");
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
         //empty list to store results
         List<QuizScore> results = new java.util.ArrayList<>();
         //iterate over all quizzes and add to selected if date matches

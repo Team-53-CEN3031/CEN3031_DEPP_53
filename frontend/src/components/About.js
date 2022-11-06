@@ -31,7 +31,12 @@ function About() {
                 </Paper>
                 <Paper elevation = {3} style={paperStyle}>
                     <h1 className="center"> About us </h1>
-
+                    About Us: Here at 4M, we are a group of 4 minority students at the University of Florida, passionate
+                    about social issues within our country, trying to make a change for the better. Although we are a
+                    group of computer science and engineering students in our final years, each of us have our own back
+                    stories and heritages, all leading us to fight for a better tomorrow. We believe that with enough
+                    effort from individuals and corporations, we can win the battle against climate change to ensure that
+                    the future of our next generations isn't bleak.
                 </Paper>
             </Paper>
         </ThemeProvider>

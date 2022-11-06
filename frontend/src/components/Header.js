@@ -40,8 +40,8 @@ function Header() {
                         <h2 className="link">Leaderboard</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
-                        component={Link} href = "/Post" >
-                        <h2 className="link">Post</h2>
+                        component={Link} href = "/post" >
+                        <h2 className="link">Create Post</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
                               component={Link} href = "/Settings">

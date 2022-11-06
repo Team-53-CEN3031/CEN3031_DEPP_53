@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes, useParams} from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
-import Post from "./components/Post";
+import CreatePost from "./components/CreatePost";
 import Quiz from "./components/Quiz"
 import Leaderboard from "./components/Leaderboard";
 import Users from "./components/Users";
@@ -20,7 +20,7 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/quiz" element={<Quiz />} />
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="/post" element = {<Post/>}/>
+                    <Route path="/post" element = {<CreatePost/>}/>
                     <Route path="/about" element={<About/>}/>
                     <Route path="/leaderboard" element={<Leaderboard/>}/>
                     <Route path="/user/:id" element={<Users/>}/>

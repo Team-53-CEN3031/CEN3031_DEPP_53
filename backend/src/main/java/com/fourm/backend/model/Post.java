@@ -12,8 +12,11 @@ public class Post {
     @Column(name = "post_id")
     private int postId;
 
-    @Column(name = "poster_id")
-    private int posterId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserPerson user;
+
 
     @Column(name = "post_time")
     private Timestamp postTime;
@@ -33,12 +36,12 @@ public class Post {
         this.postId = postId;
     }
 
-    public int getPosterId() {
-        return posterId;
+    public UserPerson getUser() {
+        return user;
     }
 
-    public void setPosterId(int posterId) {
-        this.posterId = posterId;
+    public void setUser(UserPerson user) {
+        this.user = user;
     }
 
     public Timestamp getPostTime() {

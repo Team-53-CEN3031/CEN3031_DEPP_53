@@ -2,7 +2,10 @@ package com.fourm.backend.controller;
 
 import com.fourm.backend.model.Post;
 import com.fourm.backend.model.PostPrototype;
+import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.PostService;
+import com.fourm.backend.service.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,13 @@ public class PostController {
     private AuthController authController;
 
     private PostService postService;
+
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public PostController(AuthController authController) {
@@ -44,7 +54,16 @@ public class PostController {
         Post p = new Post();
         p.setPostMessage(postPrototype.getPostMessage());
         Long[] tokenData = authController.getJwtTokenData(posterToken);
-        p.setPosterId(tokenData[0].intValue());
+        UserPerson userPerson = null;
+        List<UserPerson> userPersonList = userService.getAllUsers();
+        for(UserPerson u : userPersonList) {
+            if(u.getId() == tokenData[0].intValue()) {
+                userPerson = u;
+                break;
+            }
+        }
+
+        p.setUser(userPerson);
         p.setPostTime(new java.sql.Timestamp(System.currentTimeMillis()));
 
         postService.savePost(p);
@@ -53,6 +72,10 @@ public class PostController {
 
     @GetMapping("/getAll")
     public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+        List<Post> posts = postService.getAllPosts();
+        for(Post p : posts) {
+            p.getUser().setPassword("");
+        }
+        return posts;
     }
 }

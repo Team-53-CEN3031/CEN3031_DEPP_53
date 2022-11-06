@@ -25,7 +25,6 @@ function Users() {
             window.location.href = "/404";
         }
         id = parseInt(id);
-        console.log(id);
         fetch("http://localhost:8080/api/user/get/"+id)
             .then(res=>res.json())
             .then((result)=>{

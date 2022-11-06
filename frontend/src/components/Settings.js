@@ -28,6 +28,10 @@ function Settings() {
                 localStorage.setItem('theme', 'dark');
             }
             window.location.reload();
+        } else if (e.target.id === 'log_out') {
+            e.preventDefault();
+            localStorage.removeItem('jwtToken');
+            window.location.href = "/login";
         }
     }
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
@@ -42,6 +46,12 @@ function Settings() {
                         <div style={{display:'flex', alignItems:'center',justifyContent:'center'}}>
                             <h2 style={{width:'70%'}}>Change Theme</h2>
                             <Button style={{width:'30%'}} id="change_theme" onClick={handleClick} variant="contained" color="primary">Change</Button>
+                        </div>
+                    </Container>
+                    <Container style={{display:'flex', flexDirection:'column'}}>
+                        <div style={{display:'flex', alignItems:'center',justifyContent:'center'}}>
+                            <h2 style={{width:'70%'}}>Log Out</h2>
+                            <Button style={{width:'30%'}} id="log_out" onClick={handleClick} variant="contained" color="primary">Log Out</Button>
                         </div>
                     </Container>
                 </Paper>

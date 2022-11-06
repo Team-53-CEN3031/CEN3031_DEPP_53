@@ -109,6 +109,10 @@ public class QuizController {
                 results.add(q);
             }
         }
+        //sort results by totalScore
+        results.sort((q1, q2) -> (int) (1000*(q2.getTotalScore() - q1.getTotalScore())));
+        //reverse results so that lowest score is first
+        java.util.Collections.reverse(results);
         return results;
     }
 

@@ -35,8 +35,12 @@ function Login() {
                 if(str == null) {
                     return;
                 }
-                localStorage.setItem('jwtToken', str);
-                window.location.href = "/dashboard";
+                if(str === '') {
+                    setErrorDiv(<div className="error">Invalid Credentials</div>);
+                } else {
+                    localStorage.setItem('jwtToken', str);
+                    window.location.href = "/dashboard";
+                }
             });
         })
     }

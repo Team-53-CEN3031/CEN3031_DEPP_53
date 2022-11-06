@@ -6,7 +6,7 @@ import {getTheme} from "../styles/themes/themes";
 import {validateJWT} from "../utils/authToken";
 
 
-function Post() {
+function CreatePost() {
     // paperStyle is used to style the paper component
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
 
@@ -48,9 +48,9 @@ function Post() {
             <Paper style = {{height: '100vh'}}>
                 <Header/>
                 <Paper elevation = {3} style={paperStyle}>
-                    <h1 className="center"> Post</h1>
+                    <h1 className="center"> Create Post</h1>
                     <Box component="form" sx={{'& > :not(style)': { m: 1 },}} noValidate autoComplete="off">
-                        <TextField id="outlined-basic" label="Post Message" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
+                        <TextField id="outlined-basic" label="Create Post Message" variant="outlined" fullWidth value = {postMessage} onChange={(e)=>setPostMessage(e.target.value)}/>
                     </Box>
                     <div className="center">
                         <Button id = "post" variant="contained" color = "primary" onClick={handleClick}>SUBMIT</Button>
@@ -61,4 +61,4 @@ function Post() {
     );
 }
 
-export default Post;
+export default CreatePost;

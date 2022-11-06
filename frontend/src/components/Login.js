@@ -134,7 +134,7 @@ function Login() {
                             <h1 color = "primary" className="center"> Sign Up</h1>
                             <Box component="form" sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                                 <TextField label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
-                                <TextField label="Email" variant="outlined" fullWidth value = {emailS} error={!validEmail(emailP)} helperText={!validEmail(emailP) ? "Invalid email" : ""} onChange={(e)=>setEmailS(e.target.value)}/>
+                                <TextField label="Email" variant="outlined" fullWidth value = {emailS} error={!validEmail(emailS)} helperText={!validEmail(emailS) ? "Invalid email" : ""} onChange={(e)=>setEmailS(e.target.value)}/>
                                 <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} error={!validPassword(passwordS)} helperText={passwordHelper(passwordS)} onChange={(e)=>setPasswordS(e.target.value)}/>
                             </Box>
                             {/* Button is used to submit the form When it is clicked, handleClick is called */}

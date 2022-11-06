@@ -81,6 +81,9 @@ public class QuizController {
     @GetMapping("/getAll")
     public List<QuizScore> getAll() {
         List<QuizScore> quizScores = quizService.getAllQuizzes();
+        for(QuizScore q : quizScores) {
+            q.getQuizKey().getUser().setPassword("");
+        }
         return quizService.getAllQuizzes();
     }
 

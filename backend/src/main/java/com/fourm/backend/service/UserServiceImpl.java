@@ -47,9 +47,18 @@ public class UserServiceImpl implements UserService {
     public UserPerson getUser(int id) {
         //Get the user by id but return null if the user is not found
         UserPerson p = userRepository.findById(id).orElse(null);
+        UserPerson r = new UserPerson();
+
         if(p != null){
-            p.setPassword("");
+            r.setId(p.getId());
+            r.setName(p.getName());
+            r.setEmail(p.getEmail());
+            r.setRole(p.getRole());
+            r.setRegistrationDate(p.getRegistrationDate());
+            r.setPassword("");
+        } else {
+            return null;
         }
-        return p;
+        return r;
     }
 }

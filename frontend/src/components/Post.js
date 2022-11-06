@@ -12,9 +12,7 @@ function Post() {
 
     const[postMessage, setPostMessage] = useState('');
 
-    function post(postMessage) {
 
-    }
 
     useEffect(()=>{
         if (!validateJWT()) {
@@ -38,9 +36,7 @@ function Post() {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(p)
             }).then((res)=>{
-                if(res.status === 200) {
-                    post(postMessage);
-                }
+
             })
         }
     }

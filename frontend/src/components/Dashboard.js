@@ -42,29 +42,31 @@ function Dashboard() {
         <ThemeProvider theme={currTheme}>
             <Paper style = {{minHeight: '100vh', display:'flex', flexDirection:'column'}}>
                 <Header/>
-                <Paper className="dashboard" >
-                    <div className="userpostcontainer">
-                        <Container>
-                            {/*Paper component is used to style the form
+                <div style = {paperStyle}>
+                    <Paper className="dashboard" >
+                        <div className="userpostcontainer">
+                            <Container>
+                                {/*Paper component is used to style the form
                 Paper is just a container with a shadow
                 */}
-                            <Paper elevation={3} style={paperStyle}>
-                                Posts
-                                {/*
+                                <Paper elevation={3} style={paperStyle}>
+                                    Posts
+                                    {/*
                     This is used to display the list of users and their registration dates
                     map is used to iterate through the list of users given by the backend
                     */}
-                                {posts.map(post=>(
-                                    <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
-                                        Poster: {post.user.name}<br/>
-                                        Date: {printDate(post.postTime)} <br/>
-                                        Message : {post.postMessage} <br/>
-                                    </Paper>
-                                )).reverse()}
-                            </Paper>
-                        </Container>
-                    </div>
-                </Paper>
+                                    {posts.map(post=>(
+                                        <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={post.postId}>
+                                            Poster: {post.user.name}<br/>
+                                            Date: {printDate(post.postTime)} <br/>
+                                            Message : {post.postMessage} <br/>
+                                        </Paper>
+                                    )).reverse()}
+                                </Paper>
+                            </Container>
+                        </div>
+                    </Paper>
+                </div>
             </Paper>
         </ThemeProvider>
     );

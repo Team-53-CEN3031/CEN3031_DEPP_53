@@ -28,20 +28,28 @@ function Header() {
                         <h2 className="link">Home</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
-                        component={Link} href = "/Login" >
-                        <h2 className="link">Login</h2>
+                              component={Link} href = "/About" >
+                        <h2 className="link">About</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
                         component={Link} href = "/Quiz" >
                         <h2 className="link">Quiz</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
+                              component={Link} href = "/Leaderboard" >
+                        <h2 className="link">Leaderboard</h2>
+                    </MenuItem>
+                    <MenuItem className="navContainer"
                         component={Link} href = "/Post" >
                         <h2 className="link">Post</h2>
                     </MenuItem>
                     <MenuItem className="navContainer"
-                        component={Link} href = "/About" >
-                        <h2 className="link">About</h2>
+                              component={Link} href = "/Settings">
+                        <h2 className="link">Settings</h2>
+                    </MenuItem>
+                    <MenuItem className="navContainer"
+                              component={Link} href = "/Login" >
+                        <h2 className="link">Login</h2>
                     </MenuItem>
                 </Paper>
             </Paper>

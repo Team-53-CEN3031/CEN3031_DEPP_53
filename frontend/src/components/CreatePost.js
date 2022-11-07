@@ -36,7 +36,9 @@ function CreatePost() {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(p)
             }).then((res)=>{
-
+                if(res.status === 200) {
+                    window.location.href = "/dashboard";
+                }
             })
         }
     }

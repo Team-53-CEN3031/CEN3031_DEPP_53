@@ -16,7 +16,7 @@ function printDate(d) {
 
 function Post() {
     let {id} = useParams();
-    const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
+    const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto', minHeight: '100vh'}
     function getPost() {
         if(post== null) {
             return <div>Loading...</div>
@@ -54,7 +54,7 @@ function Post() {
     const[post,setPost] = useState(null);
     const currTheme = getTheme();
     return (
-        <ThemeProvider theme={currTheme} style = {{minHeight: '100vh'}}>
+        <ThemeProvider theme={currTheme}>
             <Header/>
             <Paper>
                 <Paper>

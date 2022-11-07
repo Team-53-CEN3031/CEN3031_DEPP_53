@@ -14,7 +14,7 @@ function About() {
 
     return (
         <ThemeProvider theme={currTheme}>
-            <Paper style = {{height: '100vh'}}>
+            <Paper style = {{minHeight: '100vh'}}>
                 <Header/>
                 <Paper elevation = {3} style={paperStyle}>
                     <h1 className="center"> Mission statement </h1>

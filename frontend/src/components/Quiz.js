@@ -9,6 +9,7 @@ import Header from "./Header";
 import {validateJWT} from "../utils/authToken";
 
 
+
 function Quiz(){
 
     useEffect(()=>{
@@ -83,15 +84,21 @@ function Quiz(){
 
     const currTheme = getTheme();
 
+    function validResponse(response){
+        //check if the response is valid using regular expressions
+        return response.match(/^[0-9\b]+$/);
+
+    }
+
     return (
         <ThemeProvider theme={currTheme}>
             <Paper style = {{minHeight: '100vh'}}>
                 <Header/>
                 <Paper elevation = {3} style={paperStyle}>
-                    <h1>Enviro Quiz</h1>
+                    <h1 style={{textAlign: "center", color:"green", fontWeight: "bold"}}>Enviro Quiz</h1>
                     <h2>Take the quiz now to find out your carbon footprint!</h2>
                     <div>
-                        <h2><HomeIcon/> Home</h2>
+                        <h2 style={{textAlign: "center"}}><HomeIcon/> Home</h2>
                         <h3>{Questions[0]}</h3>
                         <TextField id="answer0" type="number" label="$" variant="outlined" fullWidth value = {responses.question0} onChange={handleQ0Change}/>
                         <h3>{Questions[1]}</h3>
@@ -99,26 +106,26 @@ function Quiz(){
                         <h3>{Questions[2]}</h3>
                         <TextField id="answer2" type="number" label="$" variant="outlined" fullWidth value = {responses.question2} onChange={handleQ2Change}/>
 
-                        <h2><FlightIcon/> Transportation</h2>
+                        <h2 style={{textAlign: "center"}}><FlightIcon/> Transportation</h2>
                         <h3>{Questions[3]}</h3>
-                        <TextField id="answer3" type="text" label="miles" variant="outlined" fullWidth value = {responses.question3} onChange={handleQ3Change}/>
+                        <TextField id="answer3" type="number" label="miles" variant="outlined" fullWidth value = {responses.question3} onChange={handleQ3Change}/>
                         <h3>{Questions[4]}</h3>
-                        <TextField id="answer4" type="text" label="flights" variant="outlined" fullWidth value = {responses.question4} onChange={handleQ4Change}/>
+                        <TextField id="answer4" type="number" label="flights" variant="outlined" fullWidth value = {responses.question4} onChange={handleQ4Change}/>
                         <h3>{Questions[5]}</h3>
-                        <TextField id="answer5" type="text" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
+                        <TextField id="answer5" type="number" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
 
-                        <h2><DeleteIcon/> Recycling</h2>
+                        <h2 style={{textAlign: "center"}}><DeleteIcon/> Recycling</h2>
                         <h3>{Questions[6]}</h3>
-                        <button onClick={handleQ6True}> Yes </button>
-                        <button onClick={handleQ6False}>No</button>
+                        <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6True}>Yes</Button>
+                        <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6False}>No</Button>
                         <h3>{Questions[7]}</h3>
-                        <button onClick={handleQ7True}>Yes</button>
-                        <button onClick={handleQ7False}>No</button>
+                        <Button id = "Q7true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7True}>Yes</Button>
+                        <Button id = "Q7false" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7False}>No</Button>
 
-                        <h3>Thanks for taking the Enviro quiz</h3>
-                        <button onClick={handleSubmit}>Submit Quiz</button>
-                        <h2>Your carbon emission footprint is:</h2>
-                        <h2>{score}</h2>
+                        <h2 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h2>
+                        <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleSubmit}>Submit Quiz</Button>
+                        <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
+                        <h2 style={{textAlign: "center"}}>{score}</h2>
                     </div>
                 </Paper>
             </Paper>

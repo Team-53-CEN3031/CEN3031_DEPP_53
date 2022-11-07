@@ -56,8 +56,10 @@ function Dashboard() {
                                             <MenuItem component={Link} href = {"/user/"+post.user.id} >
                                                 <PortraitIcon/> &nbsp; { post.user.name}<br/>
                                             </MenuItem>
-                                            Date: {printDate(post.postTime)} <br/>
-                                            Message : {post.postMessage} <br/>
+                                            <MenuItem component={Link} href = {"/post/"+post.postId} >
+                                                Date: {printDate(post.postTime)} <br/>
+                                                Message : {post.postMessage} <br/>
+                                            </MenuItem>
                                         </Paper>
                                     )).reverse()}
                                 </Paper>

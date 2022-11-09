@@ -11,6 +11,7 @@ function Login() {
 
     const[emailS, setEmailS] = useState('');
     const[passwordS, setPasswordS] = useState('');
+    const[passwordS2, setPasswordS2] = useState(''); // verify password
     const[nameS, setNameS] = useState('');
     const[emailP, setEmailP] = useState('');
     const[passwordP, setPasswordP] = useState('');
@@ -82,6 +83,10 @@ function Login() {
             if(!validEmail(emailS)) {
                 return;
             }
+            if(passwordS !== passwordS2) {
+                setErrorDiv(<div className="error">Passwords do not match</div>);
+                return;
+            }
             const user = {name: nameS,email: emailS,password: passwordS};
             fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
@@ -123,6 +128,9 @@ function Login() {
     }
 
     function passwordHelper(pass) {
+        if(pass !== passwordS) {
+            return "Passwords do not match";
+        }
         if(validPassword(pass)) {
             return "";
         }
@@ -140,6 +148,7 @@ function Login() {
                                 <TextField label="Name" variant="outlined" fullWidth value = {nameS} onChange={(e)=>setNameS(e.target.value)}/>
                                 <TextField label="Email" variant="outlined" fullWidth value = {emailS} error={!validEmail(emailS)} helperText={!validEmail(emailS) ? "Invalid email" : ""} onChange={(e)=>setEmailS(e.target.value)}/>
                                 <TextField label="Password" type="password" variant="outlined" fullWidth value = {passwordS} error={!validPassword(passwordS)} helperText={passwordHelper(passwordS)} onChange={(e)=>setPasswordS(e.target.value)}/>
+                                <TextField label="Confirm Password" type="password" variant="outlined" fullWidth value = {passwordS2} error={!validPassword(passwordS2) || (passwordS2 !== passwordS)} helperText={passwordHelper(passwordS2)} onChange={(e)=>setPasswordS2(e.target.value)}/>
                             </Box>
                             {/* Button is used to submit the form When it is clicked, handleClick is called */}
                             <div className="center">

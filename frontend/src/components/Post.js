@@ -50,7 +50,6 @@ function Post() {
             .then(res=>res.json())
             .then((result)=>{
                     setComment(result);
-                    console.log(result);
                 }
             )
 

@@ -171,6 +171,7 @@ public class PostController {
         List<Comment> results = new java.util.ArrayList<>();
         for(Comment c : comments) {
             if(c.getPost().getPostId() == id) {
+                c.getUser().setPassword("");
                 results.add(c);
             }
         }

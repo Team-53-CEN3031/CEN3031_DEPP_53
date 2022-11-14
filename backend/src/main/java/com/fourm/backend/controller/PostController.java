@@ -59,15 +59,7 @@ public class PostController {
 
         Post p = new Post();
         p.setPostMessage(postPrototype.getPostMessage());
-        Long[] tokenData = authController.getJwtTokenData(posterToken);
-        UserPerson userPerson = null;
-        List<UserPerson> userPersonList = userService.getAllUsers();
-        for(UserPerson u : userPersonList) {
-            if(u.getId() == tokenData[0].intValue()) {
-                userPerson = u;
-                break;
-            }
-        }
+        UserPerson userPerson = authController.getUserFromToken(posterToken);
 
         p.setUser(userPerson);
         p.setPostTime(new java.sql.Timestamp(System.currentTimeMillis()));

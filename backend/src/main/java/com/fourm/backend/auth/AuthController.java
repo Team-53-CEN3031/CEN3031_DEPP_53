@@ -244,6 +244,21 @@ public class AuthController {
         return data;
     }
 
+    public UserPerson getUserFromToken(String token){
+        //Gets the user id from the token
+        Long[] data = getJwtTokenData(token);
+        //Gets the user from the database
+        UserPerson userPerson = null;
+        List<UserPerson> userPersonList = userService.getAllUsers();
+        for(UserPerson u : userPersonList) {
+            if(u.getId() == data[0].intValue()) {
+                userPerson = u;
+                break;
+            }
+        }
+        return userPerson;
+    }
+
     @PostMapping("/getUsername")
     @ResponseBody
     public String getUsername(@RequestBody String token) {

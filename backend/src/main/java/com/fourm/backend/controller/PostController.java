@@ -154,4 +154,26 @@ public class PostController {
         commentService.saveComment(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getAllComments")
+    public List<Comment> getAllComments() {
+        List<Comment> c = commentService.getAllComments();
+        for(Comment comment : c) {
+            comment.getUser().setPassword("");
+        }
+        return c;
+    }
+
+    @GetMapping("/getCommentsOf/{id}")
+    public List<Comment> getCommentsOf(@PathVariable("id") int id) {
+        //Get all comments of a particular post
+        List<Comment> comments = commentService.getAllComments();
+        List<Comment> results = new java.util.ArrayList<>();
+        for(Comment c : comments) {
+            if(c.getPost().getPostId() == id) {
+                results.add(c);
+            }
+        }
+        return results;
+    }
 }

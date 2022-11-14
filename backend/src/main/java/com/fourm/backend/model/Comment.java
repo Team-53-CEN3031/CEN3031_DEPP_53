@@ -9,15 +9,18 @@ import java.sql.Timestamp;
 //So any api calls to /comment will be handled by the PostController [/api/post] and [/api/comment] are the same
 @Entity
 public class Comment {
+    //Auto generated id for the comment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private int commentId;
 
+    //The ID of the person who made the comment
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserPerson user;
 
+    //The ID of the post that the comment is under
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;

@@ -8,8 +8,6 @@ import {getTheme} from "../styles/themes/themes";
 import Header from "./Header";
 import {validateJWT} from "../utils/authToken";
 
-
-
 function Quiz(){
 
     useEffect(()=>{
@@ -33,18 +31,77 @@ function Quiz(){
         question7: true,
     })
 
+    const[invalidQ0, setInvalidQ0]= useState(false);
+    const[invalidQ1, setInvalidQ1]= useState(false);
+    const[invalidQ2, setInvalidQ2]= useState(false);
+    const[invalidQ3, setInvalidQ3]= useState(false);
+    const[invalidQ4, setInvalidQ4]= useState(false);
+    const[invalidQ5, setInvalidQ5]= useState(false);
+
+
 //This handleQChange functions, are made to change the specified property of the responses useState, while preserving the other properties (...responses).
-    const handleQ0Change = (event) => { setResponses({...responses, question0: event.target.value})}
-    const handleQ1Change = (event) => { setResponses({...responses, question1: event.target.value})}
-    const handleQ2Change = (event) => { setResponses({...responses, question2: event.target.value})}
-    const handleQ3Change = (event) => { setResponses({...responses, question3: event.target.value})}
-    const handleQ4Change = (event) => { setResponses({...responses, question4: event.target.value})}
-    const handleQ5Change = (event) => { setResponses({...responses, question5: event.target.value})}
+    const handleQ0Change = (event) => { 
+        setResponses({...responses, question0: event.target.value})
+        if (Number(responses.question0) < 300 && Number(responses.question0) > -1){
+            setInvalidQ0(false);
+        }
+        else{
+            setInvalidQ0(true);
+        }
+    }
+    const handleQ1Change = (event) => { 
+        setResponses({...responses, question1: event.target.value})
+        if (Number(responses.question1) < 500 && Number(responses.question1) > -1){
+            setInvalidQ1(false);
+        }
+        else{
+            setInvalidQ1(true);
+        }
+    }
+    const handleQ2Change = (event) => { 
+        setResponses({...responses, question2: event.target.value})
+        if (Number(responses.question2) < 300 && Number(responses.question2) > -1){
+            setInvalidQ2(false);
+        }
+        else{
+            setInvalidQ2(true);
+        }
+    }
+    const handleQ3Change = (event) => { 
+        setResponses({...responses, question3: event.target.value})
+        if (Number(responses.question0) < 1000000 && Number(responses.question0) > -1){
+            setInvalidQ3(false);
+        }
+        else{
+            setInvalidQ3(true);
+        }
+    }
+    const handleQ4Change = (event) => { 
+        setResponses({...responses, question4: event.target.value})
+        if (Number(responses.question4) < 1000 && Number(responses.question4) > -1){
+            setInvalidQ4(false);
+        }
+        else{
+            setInvalidQ4(true);
+        }
+    }
+    const handleQ5Change = (event) => { 
+        setResponses({...responses, question5: event.target.value})
+        if (Number(responses.question5) < 100 && Number(responses.question5) > -1){
+            setInvalidQ5(false);
+        }
+        else{
+            setInvalidQ5(true);
+        }
+    }
     const handleQ6True = (event) => { setResponses({...responses, question6: true})}
     const handleQ6False = (event) => { setResponses({...responses, question6: false})}
     const handleQ7True = (event) => { setResponses({...responses, question7: true})}
     const handleQ7False = (event) => { setResponses({...responses, question7: false})}
 
+    const validateInputs = (event) => {
+        //check to see if any of the inputs are invalid.
+    }
 //called on submit button onClick.
 //calculates carbon emission and stores updates score useState with the user's carbon emission result
     const handleSubmit = (event) => {
@@ -89,12 +146,6 @@ function Quiz(){
 
     const currTheme = getTheme();
 
-    function validResponse(response){
-        //check if the response is valid using regular expressions
-        return response.match(/^[0-9\b]+$/);
-
-    }
-
     return (
         <ThemeProvider theme={currTheme}>
             <Paper style = {{minHeight: '100vh'}}>
@@ -106,18 +157,24 @@ function Quiz(){
                         <h2 style={{textAlign: "center"}}><HomeIcon/> Home</h2>
                         <h3>{Questions[0]}</h3>
                         <TextField id="answer0" type="number" label="$" variant="outlined" fullWidth value = {responses.question0} onChange={handleQ0Change}/>
+                        {invalidQ0? <label style={{color: "red"}}>Invalid input.</label>: ""}
                         <h3>{Questions[1]}</h3>
                         <TextField id="answer1" type="number" label="$" variant="outlined" fullWidth value = {responses.question1} onChange={handleQ1Change}/>
+                        {invalidQ1? <label style={{color: "red"}}>Invalid input.</label>: ""}
                         <h3>{Questions[2]}</h3>
                         <TextField id="answer2" type="number" label="$" variant="outlined" fullWidth value = {responses.question2} onChange={handleQ2Change}/>
+                        {invalidQ2? <label style={{color: "red"}}>Invalid input.</label>: ""}
 
                         <h2 style={{textAlign: "center"}}><FlightIcon/> Transportation</h2>
                         <h3>{Questions[3]}</h3>
                         <TextField id="answer3" type="number" label="miles" variant="outlined" fullWidth value = {responses.question3} onChange={handleQ3Change}/>
+                        {invalidQ3? <label style={{color: "red"}}>Invalid input.</label>: ""}
                         <h3>{Questions[4]}</h3>
                         <TextField id="answer4" type="number" label="flights" variant="outlined" fullWidth value = {responses.question4} onChange={handleQ4Change}/>
+                        {invalidQ4? <label style={{color: "red"}}>Invalid input.</label>: ""}
                         <h3>{Questions[5]}</h3>
                         <TextField id="answer5" type="number" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
+                        {invalidQ5? <label style={{color: "red"}}>Invalid input.</label>: ""}
 
                         <div style = {{display: 'flex',
                             alignItems: 'center',

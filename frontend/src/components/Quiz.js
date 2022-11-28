@@ -81,7 +81,7 @@ function Quiz(){
             //The quiz score is being sent to API
         })
     }
-        
+
     const redirectAddQuiz = () =>
     {
         window.location.replace("http://localhost:3000/addquiz");
@@ -119,23 +119,25 @@ function Quiz(){
                         <h3>{Questions[5]}</h3>
                         <TextField id="answer5" type="number" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
 
-                        <h2 style={{textAlign: "center"}}><DeleteIcon/> Recycling</h2>
-                        <h3>{Questions[6]}</h3>
-                        <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6True}>Yes</Button>
-                        <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6False}>No</Button>
-                        <h3>{Questions[7]}</h3>
-                        <Button id = "Q7true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7True}>Yes</Button>
-                        <Button id = "Q7false" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7False}>No</Button>
-                        <h2 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h2>
-                        <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleSubmit}>Submit Quiz</Button>
-                        <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
-                        <h2 style={{textAlign: "center"}}>{score}</h2>
-                        <h3>Thanks for taking the Enviro quiz</h3>
-                        <button onClick={handleSubmit}>Submit Quiz</button>
-                        <h2>Your carbon emission footprint is:</h2>
-                        <h2>{score}</h2>
-                        <h3>Are you recycling properly? Find out now</h3>
-                        <button onClick={redirectAddQuiz}>Take Quiz</button>
+                        <div style = {{display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',flexDirection:'column'}}>
+                            <h2 style={{textAlign: "center"}}><DeleteIcon/> Recycling</h2>
+                            <h3>{Questions[6]}</h3>
+                            <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6True}>Yes</Button>
+                            <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6False}>No</Button>
+                            <h3>{Questions[7]}</h3>
+                            <Button id = "Q7true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7True}>Yes</Button>
+                            <Button id = "Q7false" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7False}>No</Button>
+                            <h2 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h2>
+                            <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleSubmit}>Submit Quiz</Button>
+                            <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
+                            <h2 style={{textAlign: "center"}}>{score}</h2>
+                            <h2 style={{textAlign: "center"}}>Are you recycling properly? Find out now</h2>
+                            <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={redirectAddQuiz}>Take Another Quiz</Button>
+                        </div>
+
+
                     </div>
                 </Paper>
             </Paper>

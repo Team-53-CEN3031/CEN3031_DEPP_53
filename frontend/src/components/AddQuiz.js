@@ -14,8 +14,29 @@ function AddQuiz(){
     const [score, setScore] = useState(0);
     const [final,setFinal] = useState(false); // this is the state to end the game instead of redirecting a new link
 
-    const handleSubmit = (event) => {
+    const handleClick=(e)=> {
+        // Check source of event
+        if(e.target.id === 'post') {
+            e.preventDefault();
+            //Validate JWT
+            const posterToken = localStorage.getItem('jwtToken');
+            if(posterToken == null) {
+                //User tried to post without being logged in
+                return;
+            }
 
+            let postMessage = "I scored a " + score + " on the recycling quiz!, can you beat me?";
+            let p = {postMessage, posterToken};
+            fetch("http://localhost:8080/api/post/add", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(p)
+            }).then((res)=>{
+                if(res.status === 200) {
+                    window.location.href = "/dashboard";
+                }
+            })
+        }
     }
 
     const optionChoosen = (right) =>
@@ -70,17 +91,15 @@ function AddQuiz(){
                         <div className="Final">
                             <img className = "Recycle" src={require("../images/recycle.png")} alt="recycleLogo"/>}))
                             <h2> Congratulations! You've made it to the end! </h2>
-                            <h2> You're Final score: ({(score / AddQuestions.length) * 100}%)</h2>
+                            <h2> Your Final score: ({(score / AddQuestions.length) * 100}%)</h2>
                             <h4> Always, always  remember to follow your nearby recycling center's protocols on recycling items not listed in our quiz.
                                 It is vital for everyone to recycle properly as there are many benefits to our environment.
                             </h4>
                             <h4> Properly recycling would assist
                                 our planet to conserve water/timber, reduce waste in our landfills, prevent pollution and saving energy. For more information
                                 on recycling, please visit the United States Environment Protection Agency's (EPA) website.</h4>
+                            <Button id = "post" variant="contained" color = "primary" onClick={handleClick}>SUBMIT</Button>
                         </div>
-
-
-
 
 
                      ):(
@@ -108,7 +127,7 @@ function AddQuiz(){
                         </ul>
                         </div>
                         </div>
-                        )};
+                        )}
                     <button
                         onClick={restart}
                         className="redirect"

@@ -81,6 +81,11 @@ function Quiz(){
             //The quiz score is being sent to API
         })
     }
+        
+    const redirectAddQuiz = () =>
+    {
+        window.location.replace("http://localhost:3000/addquiz");
+    };
 
     const currTheme = getTheme();
 
@@ -121,11 +126,16 @@ function Quiz(){
                         <h3>{Questions[7]}</h3>
                         <Button id = "Q7true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7True}>Yes</Button>
                         <Button id = "Q7false" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7False}>No</Button>
-
                         <h2 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h2>
                         <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleSubmit}>Submit Quiz</Button>
                         <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
                         <h2 style={{textAlign: "center"}}>{score}</h2>
+                        <h3>Thanks for taking the Enviro quiz</h3>
+                        <button onClick={handleSubmit}>Submit Quiz</button>
+                        <h2>Your carbon emission footprint is:</h2>
+                        <h2>{score}</h2>
+                        <h3>Are you recycling properly? Find out now</h3>
+                        <button onClick={redirectAddQuiz}>Take Quiz</button>
                     </div>
                 </Paper>
             </Paper>

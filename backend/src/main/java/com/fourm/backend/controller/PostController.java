@@ -1,16 +1,17 @@
 package com.fourm.backend.controller;
 
 import com.fourm.backend.model.*;
+import com.fourm.backend.service.BlockService;
 import com.fourm.backend.service.CommentService;
 import com.fourm.backend.service.PostService;
 import com.fourm.backend.service.UserService;
-import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fourm.backend.auth.AuthController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,13 @@ public class PostController {
     private UserService userService;
 
     private CommentService commentService;
+
+    private BlockService blockService;
+
+    @Autowired
+    public void setBlockService(BlockService blockService) {
+        this.blockService = blockService;
+    }
 
     @Autowired
     public void setCommentService(CommentService commentService) {
@@ -70,7 +78,43 @@ public class PostController {
 
     @GetMapping("/getAll")
     public List<Post> getAllPosts() {
+        //Gets all posts in the feed
         List<Post> posts = postService.getAllPosts();
+        for(Post p : posts) {
+            p.getUser().setPassword("");
+        }
+        return posts;
+    }
+
+    @PostMapping("/getAll")
+    public List<Post> getAllPosts(@RequestBody String userToken) {
+        //Behaves identically to getAllPosts() if userToken is null
+        //Only reason this exists is to allow for the userToken to be passed in the body
+        //So that users you've blocked won't see your posts
+        if(userToken == null) {
+            return getAllPosts();
+        }
+
+        //Get the user from the token
+        UserPerson user = authController.getUserFromToken(userToken);
+        if(user == null) {
+            return getAllPosts();
+        }
+
+        List<Block> blocks = blockService.getAllBlocks();
+        //create empty list of users
+        List<UserPerson> usersBlockedBy = new ArrayList<>();
+        for (Block b : blocks) {
+            if (b.getBlocked().getId() == user.getId()) {
+                //Add blockers to a list
+                usersBlockedBy.add(b.getBlocker());
+            }
+        }
+
+        //Iterating through all posts and removing the ones that the user has blocked
+        List<Post> posts = postService.getAllPosts();
+        posts.removeIf(p -> usersBlockedBy.contains(p.getUser()));
+
         for(Post p : posts) {
             p.getUser().setPassword("");
         }

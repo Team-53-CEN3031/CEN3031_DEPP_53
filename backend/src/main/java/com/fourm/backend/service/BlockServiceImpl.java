@@ -26,4 +26,8 @@ public class BlockServiceImpl implements BlockService {
         return blockRepository.findAll();
     }
 
+    @Override
+    public void deleteBlock(Block block) {
+        blockRepository.delete(block);
+    }
 }

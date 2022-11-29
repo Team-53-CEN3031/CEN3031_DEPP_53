@@ -9,4 +9,6 @@ public interface BlockService {
     public Block saveBlock(Block block);
 
     public List<Block> getAllBlocks();
+
+    public void deleteBlock(Block block);
 }

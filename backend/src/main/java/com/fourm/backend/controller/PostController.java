@@ -221,4 +221,37 @@ public class PostController {
         }
         return results;
     }
+
+    @PostMapping("/getCommentsOf/{id}")
+    public List<Comment> getCommentsOf(@PathVariable("id") int id, @RequestBody String userToken) {
+        if(userToken == null) {
+            return getCommentsOf(id);
+        }
+        UserPerson user = authController.getUserFromToken(userToken);
+        if(user == null) {
+            return getCommentsOf(id);
+        }
+
+        List<Comment> comments = commentService.getAllComments();
+        List<Comment> results = new java.util.ArrayList<>();
+        for(Comment c : comments) {
+            if(c.getPost().getPostId() == id) {
+                c.getUser().setPassword("");
+                results.add(c);
+            }
+        }
+
+        List<Block> blocks = blockService.getAllBlocks();
+        //create empty list of users
+        List<UserPerson> usersBlockedBy = new ArrayList<>();
+        for (Block b : blocks) {
+            if (b.getBlocked().getId() == user.getId()) {
+                //Add blockers to a list
+                usersBlockedBy.add(b.getBlocker());
+            }
+        }
+
+        results.removeIf(p -> usersBlockedBy.contains(p.getUser()));
+        return results;
+    }
 }

@@ -35,6 +35,20 @@ function Users() {
                 body: JSON.stringify(jwt)
             }).then((res2)=>{
             })
+        } else if (e.target.id === 'unblock') {
+            //check to see if user is logged in
+            if(!validateJWT()) {
+                return;
+                //will add a popup later
+            }
+            //send request to block user
+            const jwt = localStorage.getItem('jwtToken');
+            fetch("http://localhost:8080/api/user/unblock/"+id, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(jwt)
+            }).then((res2)=>{
+            })
         }
     }
 
@@ -72,6 +86,7 @@ function Users() {
         <ThemeProvider theme={currTheme} style = {{minHeight: '100vh'}}>
             <Header/>
             <Button id = "block" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Block</Button>
+            <Button id = "unblock" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Unblock</Button>
             <Paper>
                 <Paper style = {{ display:'flex', flexDirection:'column'}}>
                     <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} >

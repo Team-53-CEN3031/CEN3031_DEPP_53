@@ -133,4 +133,40 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/unblock/{id}")
+    public ResponseEntity<?> unblockUser(@PathVariable("id") String id, @RequestBody String userToken) {
+        //remove the quotes from the string
+        userToken = userToken.substring(1, userToken.length() - 1);
+        //Try to parse id to int
+        int blockedId;
+        try {
+            blockedId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            //Return bad request if id is not an int
+            return new ResponseEntity<>("Invalid id", HttpStatus.BAD_REQUEST);
+        }
+        //Check if userToken is valid
+        if (authController.validateJwtToken(userToken).getStatusCode() != HttpStatus.OK) {
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
+        //Get the user id from the token
+        Long[] data = authController.getJwtTokenData(userToken);
+        if(data == null){
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
+
+        //check to see if block exists
+        List<Block> blocks = blockService.getAllBlocks();
+        for(Block block : blocks){
+            if((block.getBlocker().getId() == data[0]) && (block.getBlocked().getId() == blockedId)){
+                blockService.deleteBlock(block);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        //User somehow tried to unblock someone that they didn't block in the first place
+        return new ResponseEntity<>("Not blocked", HttpStatus.BAD_REQUEST);
+    }
+
+
+
 }

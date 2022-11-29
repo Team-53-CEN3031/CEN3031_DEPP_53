@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {validateJWT} from "../utils/authToken";
-import {Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
+import {Button, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
 import Header from "./Header";
@@ -19,6 +19,25 @@ function Users() {
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
 
     const[user,setUser] = useState('')
+
+    const handleClick=(e)=> {
+        if(e.target.id === 'block') {
+            //check to see if user is logged in
+            if(!validateJWT()) {
+                return;
+                //will add a popup later
+            }
+            //send request to block user
+            const jwt = localStorage.getItem('jwtToken');
+            fetch("http://localhost:8080/api/user/block/"+id, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(jwt)
+            }).then((res2)=>{
+            })
+        }
+    }
+
     useEffect(()=>{
         if(isNaN(id)) {
             //User entered non integer value for id
@@ -52,6 +71,7 @@ function Users() {
     return (
         <ThemeProvider theme={currTheme} style = {{minHeight: '100vh'}}>
             <Header/>
+            <Button id = "block" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleClick}>Block</Button>
             <Paper>
                 <Paper style = {{ display:'flex', flexDirection:'column'}}>
                     <Paper elevation={4} style={{margin:"10px",padding:"15px", textAlign:"left"}} >

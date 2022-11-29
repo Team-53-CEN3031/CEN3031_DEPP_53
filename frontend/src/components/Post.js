@@ -44,14 +44,27 @@ function Post() {
                     }
                 }
             )
-        validateJWT();
 
-        fetch("http://localhost:8080/api/post/getCommentsOf/"+id)
-            .then(res=>res.json())
-            .then((result)=>{
-                    setComment(result);
-                }
-            )
+        if(!validateJWT()) {
+            fetch("http://localhost:8080/api/post/getCommentsOf/"+id)
+                .then(res=>res.json())
+                .then((result)=>{
+                        setComment(result);
+                    }
+                )
+        } else {
+            const jwt = localStorage.getItem('jwtToken');
+            fetch("http://localhost:8080/api/post/getCommentsOf/"+id, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(jwt)
+            }).then(res=>res.json())
+                .then((result)=>{
+                        setComment(result);
+                    }
+                )
+        }
+
 
         if(localStorage.getItem('theme') === null) {
             localStorage.setItem('theme', 'light');

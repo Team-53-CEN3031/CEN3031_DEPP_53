@@ -211,9 +211,14 @@ public class AuthController {
     }
 
     public Long[] getJwtTokenData(String token){
+        //If any errors are thrown, the token is invalid
+        //put entire function into a try catch block
         //Decoder for JWT token
         //Base64 means that the token is encoded in base64
-        Base64.Decoder decoder = Base64.getUrlDecoder();
+        Long[] data = new Long[3];
+
+        try {
+            Base64.Decoder decoder = Base64.getUrlDecoder();
         /*
         Split the token into 3 parts: header, payload, signature
         Header is the first part of the token, and is the same for all tokens
@@ -223,24 +228,30 @@ public class AuthController {
         Signature is created by using the header, payload, and a secret key to create a hash
         Which verifies that the token is valid
         */
-        String[] chunks = token.split("\\.");
-        //Split the token into 3 parts based on the "." character
-        String payload = new String(decoder.decode(chunks[1]));
-        //Decode the payload from base64
-        String[] y = payload.split(",");
-        //Split the payload's data into an array that contains the user id, issue date, and expiration date
-        for(int i = 0; i < y.length; i++){
-            y[i] = y[i].replaceAll("[^0-9]", "");
-            //Replace all non-numeric characters with nothing
+            String[] chunks = token.split("\\.");
+            //Split the token into 3 parts based on the "." character
+            String payload = new String(decoder.decode(chunks[1]));
+            //Decode the payload from base64
+            String[] y = payload.split(",");
+            //Split the payload's data into an array that contains the user id, issue date, and expiration date
+            for(int i = 0; i < y.length; i++){
+                y[i] = y[i].replaceAll("[^0-9]", "");
+                //Replace all non-numeric characters with nothing
+            }
+            //Create a new array that contains the user id, issue date, and expiration date
+            //Data[0] is the user id
+            //Data[1] is the issue date
+            //Data[2] is the expiration date
+            data[0] = Long.parseLong(y[0]);
+            data[1] = Long.parseLong(y[1]);
+            data[2] = Long.parseLong(y[2]);
+        } catch (Exception e){
+            //In the future I will go back and add more specific error messages
+            //but for now this should be fine -Zachary
+            //If you got any problems with it, why don't you go ahead and do it?
+
+            return null;
         }
-        //Create a new array that contains the user id, issue date, and expiration date
-        Long[] data = new Long[3];
-        //Data[0] is the user id
-        //Data[1] is the issue date
-        //Data[2] is the expiration date
-        data[0] = Long.parseLong(y[0]);
-        data[1] = Long.parseLong(y[1]);
-        data[2] = Long.parseLong(y[2]);
         return data;
     }
 

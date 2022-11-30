@@ -2,6 +2,7 @@ package com.fourm.backend.auth;
 
 import com.fourm.backend.model.Login;
 import com.fourm.backend.model.UserPerson;
+import com.fourm.backend.service.EmailServiceImpl;
 import com.fourm.backend.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.sound.midi.SysexMessage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -40,6 +40,8 @@ public class AuthController {
     @Value("${fourm.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @PostConstruct
     protected void init() {
@@ -114,6 +116,11 @@ public class AuthController {
         String DateToStoreInDataBase= sdf.format(new Date());
         Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase);
         user.setRegistrationDate(ts);
+
+        //Send email to the user upon registration
+        //This is asynchronous, so it doesn't block the main thread
+        emailService.sendSimpleEmail(login.getEmail(), "Welcome to Enviro!", "Hello " + login.getName() + ",\n\nWelcome to Enviro! We hope you enjoy your stay!\n\nRegards,\nEnviro Team");
+
 
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);

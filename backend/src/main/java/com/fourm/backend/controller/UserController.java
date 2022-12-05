@@ -2,10 +2,9 @@ package com.fourm.backend.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fourm.backend.auth.AuthController;
-import com.fourm.backend.model.Block;
-import com.fourm.backend.model.Login;
-import com.fourm.backend.model.UserPerson;
+import com.fourm.backend.model.*;
 import com.fourm.backend.service.BlockService;
+import com.fourm.backend.service.ChatService;
 import com.fourm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -71,6 +71,15 @@ public class UserController {
     @param is empty
     @return a list of all the users in the database
      */
+
+    private ChatService chatService;
+
+    @Autowired
+    public void setChatService(ChatService chatService) {
+        this.chatService = chatService;
+    }
+
+
     @GetMapping("/getAll")
     public List<UserPerson> getAllUsers() {
         List<UserPerson> x = userService.getAllUsers();
@@ -167,6 +176,30 @@ public class UserController {
         return new ResponseEntity<>("Not blocked", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/getChat")
+    public List<Chat> getChat(@RequestBody String userToken) {
+        //remove the quotes from the string
+        userToken = userToken.substring(1, userToken.length() - 1);
+        //Check if userToken is valid
+        if (authController.validateJwtToken(userToken).getStatusCode() != HttpStatus.OK) {
+            return null;
+        }
+        //Get the user id from the token
+        Long[] data = authController.getJwtTokenData(userToken);
+        if(data == null){
+            return null;
+        }
+        int userId = data[0].intValue();
+        List<Chat> chats = chatService.getAllChats();
+        //Make empty list<Chat> to return
+        List<Chat> userChats = new ArrayList<>();
+        for(Chat chat : chats){
+            if(chat.getSender().getId() == userId || chat.getReceiver().getId() == userId){
+                userChats.add(chat);
+            }
+        }
+        return userChats;
+    }
 
 
 }

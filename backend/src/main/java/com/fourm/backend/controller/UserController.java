@@ -201,5 +201,44 @@ public class UserController {
         return userChats;
     }
 
+    @PostMapping("/sendChat")
+    public ResponseEntity<?> sendChat(@RequestBody ChatPrototype chatPrototype) {
+        //Check if receiver exists [this is probably the most expensive operation]
+        if(userService.getUser(chatPrototype.getReceiverId()) == null){
+            return new ResponseEntity<>("Invalid receiver", HttpStatus.BAD_REQUEST);
+        }
 
+        //Check if userToken is valid
+        if (authController.validateJwtToken(chatPrototype.getUserToken()).getStatusCode() != HttpStatus.OK) {
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
+
+        //Check for empty message
+        if(chatPrototype.getChatMessage().equals("")){
+            return new ResponseEntity<>("Empty message", HttpStatus.BAD_REQUEST);
+        }
+
+        //Get the user id from the token
+        Long[] data = authController.getJwtTokenData(chatPrototype.getUserToken());
+        if(data == null){
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
+        int userId = data[0].intValue();
+
+        //Check if user is blocked
+        List<Block> blocks = blockService.getAllBlocks();
+        for(Block block : blocks){
+            if((block.getBlocker().getId() == chatPrototype.getReceiverId()) && (block.getBlocked().getId() == userId)){
+                return new ResponseEntity<>("User is blocked", HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        //Send chat
+        UserPerson sender = userService.getUser(userId);
+        UserPerson receiver = userService.getUser(chatPrototype.getReceiverId());
+        Chat chat = new Chat(sender,receiver,chatPrototype.getChatMessage());
+        chatService.saveChat(chat);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

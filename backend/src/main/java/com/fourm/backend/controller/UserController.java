@@ -179,7 +179,7 @@ public class UserController {
         return new ResponseEntity<>("Not blocked", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/chat/get")
+    @PostMapping("/chat/get")
     public List<Chat> getChat(@RequestBody String userToken) {
         //remove the quotes from the string
         userToken = userToken.substring(1, userToken.length() - 1);
@@ -198,6 +198,8 @@ public class UserController {
         List<Chat> userChats = new ArrayList<>();
         for(Chat chat : chats){
             if(chat.getSender().getId() == userId || chat.getReceiver().getId() == userId){
+                chat.getSender().setPassword("");
+                chat.getReceiver().setPassword("");
                 userChats.add(chat);
             }
         }

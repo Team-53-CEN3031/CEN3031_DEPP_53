@@ -6,6 +6,7 @@ import com.fourm.backend.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +36,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<Chat> getChatsInvolvingUser(UserPerson userPerson) {
-        return chatRepository.findBySenderOrReceiver(userPerson);
+        List<Chat> chats = chatRepository.findAll();
+        List<Chat> chatsInvolvingUser = new ArrayList<>();
+        for(Chat chat : chats) {
+            if(chat.getSender() == userPerson || chat.getReceiver() == userPerson) {
+                chatsInvolvingUser.add(chat);
+            }
+        }
+        return chatsInvolvingUser;
     }
 }

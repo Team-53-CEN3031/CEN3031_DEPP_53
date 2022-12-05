@@ -33,6 +33,7 @@ function App() {
                     <Route path="/addquiz" element={<AddQuiz />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/getchat" element={<GetChats/>} />
+                    <Route path="/chat/:id" element={<GetChats/>} />
                 </Routes>
             </BrowserRouter>
         </div>

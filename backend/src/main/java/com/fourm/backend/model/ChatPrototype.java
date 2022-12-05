@@ -8,6 +8,8 @@ public class ChatPrototype {
 
     private int receiverId;
 
+    private String receiverEmail;
+
     public ChatPrototype() {
 
     }
@@ -35,4 +37,13 @@ public class ChatPrototype {
     public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
+
+    public String getReceiverEmail() {
+        return receiverEmail;
+    }
+
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
+    }
+
 }

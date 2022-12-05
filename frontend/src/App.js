@@ -10,6 +10,7 @@ import Settings from "./components/Settings";
 import About from "./components/About";
 import Post from "./components/Post";
 import AddQuiz from "./components/AddQuiz"
+import Chat from "./components/Chat";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/settings" element={<Settings/>}/>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                     <Route path="/addquiz" element={<AddQuiz />} />
+                    <Route path="/chat" element={<Chat />} />
                 </Routes>
             </BrowserRouter>
         </div>

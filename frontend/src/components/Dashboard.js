@@ -29,13 +29,26 @@ function Dashboard() {
       This function is used to retrieve the list of users from the backend
       It is called when the page is loaded
        */
-        fetch("http://localhost:8080/api/post/getAll")
-            .then(res=>res.json())
-            .then((result)=>{
+        if(!validateJWT()) {
+            fetch("http://localhost:8080/api/post/getAll")
+                .then(res=>res.json())
+                .then((result)=>{
+                        setPosts(result);
+                    }
+                )
+        } else {
+            const jwt = localStorage.getItem('jwtToken');
+            fetch("http://localhost:8080/api/post/getAll", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(jwt)
+            }).then((res)=>{
+                res.json().then((result)=>{
                     setPosts(result);
-                }
-            )
-        validateJWT();
+                })
+            })
+        }
+
 
     },[])
 

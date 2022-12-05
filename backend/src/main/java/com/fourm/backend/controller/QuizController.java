@@ -48,15 +48,7 @@ public class QuizController {
         if(authController.validateJwtToken(userToken).getStatusCode() != HttpStatus.OK){
             return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
         }
-        Long[] tokenData = authController.getJwtTokenData(userToken);
-        UserPerson userPerson = null;
-        List<UserPerson> userPersonList = userService.getAllUsers();
-        for(UserPerson u : userPersonList) {
-            if(u.getId() == tokenData[0].intValue()) {
-                userPerson = u;
-                break;
-            }
-        }
+        UserPerson userPerson = authController.getUserFromToken(userToken);
         QuizScore q = new QuizScore();
         QuizKey qk = new QuizKey();
         qk.setUser(userPerson);

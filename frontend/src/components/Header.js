@@ -51,6 +51,10 @@ function Header() {
                               component={Link} href = "/login" >
                         <h2 className="link">Login</h2>
                     </MenuItem>
+                    <MenuItem className="navContainer"
+                                component={Link} href = "/chat" >
+                        <h2 className="link">Chat</h2>
+                    </MenuItem>
                 </Paper>
             </Paper>
         </ThemeProvider>

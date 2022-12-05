@@ -2,7 +2,10 @@ package com.fourm.backend.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fourm.backend.auth.AuthController;
-import com.fourm.backend.model.*;
+import com.fourm.backend.model.Block;
+import com.fourm.backend.model.Chat;
+import com.fourm.backend.model.ChatPrototype;
+import com.fourm.backend.model.UserPerson;
 import com.fourm.backend.service.BlockService;
 import com.fourm.backend.service.ChatService;
 import com.fourm.backend.service.UserService;

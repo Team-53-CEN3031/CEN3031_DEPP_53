@@ -11,6 +11,7 @@ import About from "./components/About";
 import Post from "./components/Post";
 import AddQuiz from "./components/AddQuiz"
 import Chat from "./components/Chat";
+import GetChats from "./components/GetChats";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                     <Route path="/addquiz" element={<AddQuiz />} />
                     <Route path="/chat" element={<Chat />} />
+                    <Route path="/getchat" element={<GetChats/>} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -329,4 +329,14 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/getIdFromToken")
+    @ResponseBody
+    public int getIdFromToken(@RequestBody String token) {
+        UserPerson user = getUserFromToken(token);
+        if(user == null) {
+            return -1;
+        }
+        return user.getId();
+    }
+
 }

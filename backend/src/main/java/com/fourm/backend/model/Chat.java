@@ -35,6 +35,13 @@ public class Chat {
 
     }
 
+    public Chat(UserPerson sender, UserPerson receiver, String chatMessage) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.chatMessage = chatMessage;
+        chatTime = new Timestamp(System.currentTimeMillis());
+    }
+
     public int getChatId() {
         return chatId;
     }

@@ -206,12 +206,72 @@ public class UserController {
         return userChats;
     }
 
+    @PostMapping("/chat/get/{id}")
+    public List<Chat> getChat(@PathVariable("id") String id, @RequestBody String userToken) {
+        List<Chat> chats = getChat(userToken);
+        if(chats == null) {
+            return null;
+        }
+        int otherUserId;
+        //convert id to int
+        try {
+            otherUserId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            //Return bad request if id is not an int
+            return null;
+        }
+        //check if other user exists
+        if(userService.getUser(otherUserId) == null){
+            return null;
+        }
+        //check if other user is same as user in token
+        Long[] data = authController.getJwtTokenData(userToken);
+        if(data == null){
+            return null;
+        }
+        if(otherUserId == data[0].intValue()){
+            return null;
+        }
+        //check if other user is blocked
+        List<Block> blocks = blockService.getAllBlocks();
+        for(Block block : blocks){
+            if((block.getBlocker().getId() == otherUserId) && (block.getBlocked().getId() == userService.getUser(otherUserId).getId())){
+                return null;
+            }
+        }
+
+        //Create empty list<Chat> to return
+        List<Chat> userChats = new ArrayList<>();
+        //iterate over chats and add chats with the other user to the list
+        for(Chat chat : chats){
+            if(chat.getSender().getId() == otherUserId || chat.getReceiver().getId() == otherUserId){
+                userChats.add(chat);
+            }
+        }
+        return userChats;
+    }
+
     @PostMapping("/chat/send")
     public ResponseEntity<?> sendChat(@RequestBody ChatPrototype chatPrototype) {
-        //Check if receiver exists [this is probably the most expensive operation]
-        if(userService.getUser(chatPrototype.getReceiverId()) == null){
-            return new ResponseEntity<>("Invalid receiver", HttpStatus.BAD_REQUEST);
+        if(chatPrototype == null){
+            return new ResponseEntity<>("Invalid chat", HttpStatus.BAD_REQUEST);
         }
+        UserPerson receiver = null;
+
+        //Check if receiver exists [this is probably the most expensive operation]
+        if(chatPrototype.getReceiverEmail() == null) {
+            if(userService.getUser(chatPrototype.getReceiverId()) == null){
+                return new ResponseEntity<>("Invalid receiver", HttpStatus.BAD_REQUEST);
+            }
+            receiver = userService.getUser(chatPrototype.getReceiverId());
+        } else {
+            //Search by email for receiver
+            receiver = userService.getUserByEmail(chatPrototype.getReceiverEmail());
+            if(receiver == null){
+                return new ResponseEntity<>("Invalid receiver", HttpStatus.BAD_REQUEST);
+            }
+        }
+
 
         //Check if userToken is valid
         if (authController.validateJwtToken(chatPrototype.getUserToken()).getStatusCode() != HttpStatus.OK) {
@@ -240,7 +300,6 @@ public class UserController {
 
         //Send chat
         UserPerson sender = userService.getUser(userId);
-        UserPerson receiver = userService.getUser(chatPrototype.getReceiverId());
         Chat chat = new Chat(sender,receiver,chatPrototype.getChatMessage());
         chatService.saveChat(chat);
 

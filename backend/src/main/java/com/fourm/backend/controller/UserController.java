@@ -179,7 +179,7 @@ public class UserController {
         return new ResponseEntity<>("Not blocked", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/getChat")
+    @GetMapping("/chat/get")
     public List<Chat> getChat(@RequestBody String userToken) {
         //remove the quotes from the string
         userToken = userToken.substring(1, userToken.length() - 1);
@@ -204,7 +204,7 @@ public class UserController {
         return userChats;
     }
 
-    @PostMapping("/sendChat")
+    @PostMapping("/chat/send")
     public ResponseEntity<?> sendChat(@RequestBody ChatPrototype chatPrototype) {
         //Check if receiver exists [this is probably the most expensive operation]
         if(userService.getUser(chatPrototype.getReceiverId()) == null){

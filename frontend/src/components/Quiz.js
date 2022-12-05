@@ -7,6 +7,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {getTheme} from "../styles/themes/themes";
 import Header from "./Header";
 import {validateJWT} from "../utils/authToken";
+import GreatScore from "../images/greatScore.jpeg";
+import GoodScore from "../images/goodScore.jpeg";
+import OkayScore from "../images/okayScore.jpeg";
+import PoorScore from "../images/poorScore.jpeg";
+
 
 function Quiz(){
 
@@ -17,6 +22,7 @@ function Quiz(){
     },[])
     const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
     const [score, setScore] = useState(0);
+    const [quizFinished, SetQuizFinished] = useState(false);
 
 //Responses will be tracked with use state.
 //initial state will be an object with 8 different values, one for each question
@@ -105,6 +111,7 @@ function Quiz(){
 //called on submit button onClick.
 //calculates carbon emission and stores updates score useState with the user's carbon emission result
     const handleSubmit = (event) => {
+        SetQuizFinished(true);
         let score = 0;
         score+= Number(responses.question0) * 105;
         score+= Number(responses.question1) * 105;
@@ -139,10 +146,21 @@ function Quiz(){
         })
     }
 
-    const redirectAddQuiz = () =>
+    const handleRetake = (event) =>
     {
-        window.location.replace("http://localhost:3000/addquiz");
-    };
+        SetQuizFinished(false);
+        //reset answers
+        setResponses({
+            question0: 0,
+            question1: 0,
+            question2: 0,
+            question3: 0,
+            question4: 0,
+            question5: 0,
+            question6: true,
+            question7: true,
+        })
+    }
 
     const currTheme = getTheme();
 
@@ -152,33 +170,34 @@ function Quiz(){
                 <Header/>
                 <Paper elevation = {3} style={paperStyle}>
                     <h1 style={{textAlign: "center", color:"green", fontWeight: "bold"}}>Enviro Quiz</h1>
-                    <h2>Take the quiz now to find out your carbon footprint!</h2>
-                    <div>
-                        <h2 style={{textAlign: "center"}}><HomeIcon/> Home</h2>
-                        <h3>{Questions[0]}</h3>
-                        <TextField id="answer0" type="number" label="$" variant="outlined" fullWidth value = {responses.question0} onChange={handleQ0Change}/>
-                        {invalidQ0? <label style={{color: "red"}}>Invalid input.</label>: ""}
-                        <h3>{Questions[1]}</h3>
-                        <TextField id="answer1" type="number" label="$" variant="outlined" fullWidth value = {responses.question1} onChange={handleQ1Change}/>
-                        {invalidQ1? <label style={{color: "red"}}>Invalid input.</label>: ""}
-                        <h3>{Questions[2]}</h3>
-                        <TextField id="answer2" type="number" label="$" variant="outlined" fullWidth value = {responses.question2} onChange={handleQ2Change}/>
-                        {invalidQ2? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                    {
+                        //if quiz is not finished --> display the questions
+                        (quizFinished == false) ?
+                        <>
+                        <div>
+                            <h2>Take the quiz now to find out your carbon footprint!</h2>
+                            <h2 style={{textAlign: "center"}}><HomeIcon/> Home</h2>
+                            <h3>{Questions[0]}</h3>
+                            <TextField id="answer0" type="number" label="$" variant="outlined" fullWidth value = {responses.question0} onChange={handleQ0Change}/>
+                            {invalidQ0? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                            <h3>{Questions[1]}</h3>
+                            <TextField id="answer1" type="number" label="$" variant="outlined" fullWidth value = {responses.question1} onChange={handleQ1Change}/>
+                            {invalidQ1? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                            <h3>{Questions[2]}</h3>
+                            <TextField id="answer2" type="number" label="$" variant="outlined" fullWidth value = {responses.question2} onChange={handleQ2Change}/>
+                            {invalidQ2? <label style={{color: "red"}}>Invalid input.</label>: ""}
 
-                        <h2 style={{textAlign: "center"}}><FlightIcon/> Transportation</h2>
-                        <h3>{Questions[3]}</h3>
-                        <TextField id="answer3" type="number" label="miles" variant="outlined" fullWidth value = {responses.question3} onChange={handleQ3Change}/>
-                        {invalidQ3? <label style={{color: "red"}}>Invalid input.</label>: ""}
-                        <h3>{Questions[4]}</h3>
-                        <TextField id="answer4" type="number" label="flights" variant="outlined" fullWidth value = {responses.question4} onChange={handleQ4Change}/>
-                        {invalidQ4? <label style={{color: "red"}}>Invalid input.</label>: ""}
-                        <h3>{Questions[5]}</h3>
-                        <TextField id="answer5" type="number" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
-                        {invalidQ5? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                            <h2 style={{textAlign: "center"}}><FlightIcon/> Transportation</h2>
+                            <h3>{Questions[3]}</h3>
+                            <TextField id="answer3" type="number" label="miles" variant="outlined" fullWidth value = {responses.question3} onChange={handleQ3Change}/>
+                            {invalidQ3? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                            <h3>{Questions[4]}</h3>
+                            <TextField id="answer4" type="number" label="flights" variant="outlined" fullWidth value = {responses.question4} onChange={handleQ4Change}/>
+                            {invalidQ4? <label style={{color: "red"}}>Invalid input.</label>: ""}
+                            <h3>{Questions[5]}</h3>
+                            <TextField id="answer5" type="number" label="flights" variant="outlined" fullWidth value = {responses.question5} onChange={handleQ5Change}/>
+                            {invalidQ5? <label style={{color: "red"}}>Invalid input.</label>: ""}
 
-                        <div style = {{display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',flexDirection:'column'}}>
                             <h2 style={{textAlign: "center"}}><DeleteIcon/> Recycling</h2>
                             <h3>{Questions[6]}</h3>
                             <Button id = "Q6true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ6True}>Yes</Button>
@@ -186,16 +205,69 @@ function Quiz(){
                             <h3>{Questions[7]}</h3>
                             <Button id = "Q7true" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7True}>Yes</Button>
                             <Button id = "Q7false" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleQ7False}>No</Button>
-                            <h2 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h2>
+                            <br></br>
+                            <h2 style={{textAlign: "left"}}>Thanks for taking the Enviro quiz</h2>
                             <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleSubmit}>Submit Quiz</Button>
-                            <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
-                            <h2 style={{textAlign: "center"}}>{score}</h2>
-                            <h2 style={{textAlign: "center"}}>Are you recycling properly? Find out now</h2>
-                            <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={redirectAddQuiz}>Take Another Quiz</Button>
                         </div>
+                        </>
+                        ://if quiz is finished --> show the results
+                        <>
+                        <div>
+                            <h1 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h1>
+                            <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
+                            <h2 style={{textAlign: "center"}}>{score} pounds of CO2/year</h2>
+                            
+                            {//display different graphic based on results
+                            (score < 6000) ? 
+                            <>
+                            <img style={{ alignItem: "center", width: 600, height: 600 }} src={GreatScore} />
+                            <h3>Share your results with your friends!</h3>
+                            <a href={require("../images/greatScore.jpeg")} download="EnviroScore">Download</a> 
+                            <br></br>
+                            </>
+                            :(score < 16000) ? 
+                            <>
+                            <img style={{ alignItem: "center", width: 600, height: 600 }} src={GoodScore} />
+                            <h3>Share your results with your friends!</h3>
+                            <a href={require("../images/goodScore.jpeg")} download="EnviroScore">Download</a> 
+                            <br></br>
+                            </> 
+                            :(score < 22000) ? 
+                            <>
+                            <img style={{ alignItem: "center", width: 600, height: 600 }} src={OkayScore} />
+                            <h3>Share your results with your friends!</h3>
+                            <a href={require("../images/okayScore.jpeg")} download="EnviroScore">Download</a> 
+                            <br></br>
+                            </>
+                            : (score > 22000) ? 
+                            <>
+                            <img style={{ alignItem: "center", width: 600, height: 600 }} src={PoorScore} />
+                            <h3>Share your results with your friends!</h3>
+                            <a href={require("../images/poorScore.jpeg")} download="EnviroScore">Download</a> 
+                            <br></br>
+                            </>
+                            : "no score"
+                            }
 
-
-                    </div>
+                            {// if score is bad -> display tips on how to improve carbon footprint
+                            (score > 16000) ?
+                            <>
+                            <h3>Here are some easy ways you can improve your carbon footprint: </h3>
+                            <p>
+                                Use public transport <br></br>
+                                Keep room temperature moderate<br></br>
+                                Take shorter showers<br></br>
+                                Cut out plastics<br></br>
+                                Minimize food waste<br></br>
+                                Buy local<br></br>
+                            </p>
+                            </>
+                            :""
+                            }
+                            <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleRetake}>Retake Quiz</Button>
+                        </div>
+                        </>                  
+                    }                    
                 </Paper>
             </Paper>
         </ThemeProvider>

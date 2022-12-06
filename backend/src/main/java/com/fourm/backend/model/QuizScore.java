@@ -1,7 +1,8 @@
 package com.fourm.backend.model;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 
 @Entity
 public class QuizScore {

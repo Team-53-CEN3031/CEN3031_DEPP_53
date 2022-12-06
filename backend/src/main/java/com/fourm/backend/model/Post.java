@@ -1,7 +1,5 @@
 package com.fourm.backend.model;
 
-import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 

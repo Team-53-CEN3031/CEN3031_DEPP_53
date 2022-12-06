@@ -5,10 +5,8 @@ import com.fourm.backend.model.QuizKey;
 import com.fourm.backend.model.QuizPrototype;
 import com.fourm.backend.model.QuizScore;
 import com.fourm.backend.model.UserPerson;
-import com.fourm.backend.service.PostService;
 import com.fourm.backend.service.QuizService;
 import com.fourm.backend.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +64,6 @@ public class QuizController {
 
         quizService.saveQuiz(q);
 
-        QuizKey p = q.getQuizKey();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -88,8 +85,8 @@ public class QuizController {
         try {
             timestamp = java.sql.Timestamp.valueOf(date + " 00:00:00");
         } catch (Exception e) {
-            System.out.println(e);
-            return null;
+            //return empty list if date is invalid
+            return quizScores;
         }
         //empty list to store results
         List<QuizScore> results = new java.util.ArrayList<>();

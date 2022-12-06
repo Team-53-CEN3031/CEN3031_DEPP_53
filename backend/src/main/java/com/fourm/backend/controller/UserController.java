@@ -1,6 +1,5 @@
 package com.fourm.backend.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fourm.backend.auth.AuthController;
 import com.fourm.backend.model.Block;
 import com.fourm.backend.model.Chat;
@@ -17,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,12 +183,13 @@ public class UserController {
         userToken = userToken.substring(1, userToken.length() - 1);
         //Check if userToken is valid
         if (authController.validateJwtToken(userToken).getStatusCode() != HttpStatus.OK) {
-            return null;
+            //return empty list if token is invalid
+            return new ArrayList<>();
         }
         //Get the user id from the token
         Long[] data = authController.getJwtTokenData(userToken);
         if(data == null){
-            return null;
+            return new ArrayList<>();
         }
         int userId = data[0].intValue();
         List<Chat> chats = chatService.getAllChats();
@@ -210,7 +209,7 @@ public class UserController {
     public List<Chat> getChat(@PathVariable("id") String id, @RequestBody String userToken) {
         List<Chat> chats = getChat(userToken);
         if(chats == null) {
-            return null;
+            return new ArrayList<>();
         }
         int otherUserId;
         //convert id to int
@@ -218,25 +217,25 @@ public class UserController {
             otherUserId = Integer.parseInt(id);
         } catch (NumberFormatException e) {
             //Return bad request if id is not an int
-            return null;
+            return new ArrayList<>();
         }
         //check if other user exists
         if(userService.getUser(otherUserId) == null){
-            return null;
+            return new ArrayList<>();
         }
         //check if other user is same as user in token
         Long[] data = authController.getJwtTokenData(userToken);
         if(data == null){
-            return null;
+            return new ArrayList<>();
         }
         if(otherUserId == data[0].intValue()){
-            return null;
+            return new ArrayList<>();
         }
         //check if other user is blocked
         List<Block> blocks = blockService.getAllBlocks();
         for(Block block : blocks){
             if((block.getBlocker().getId() == otherUserId) && (block.getBlocked().getId() == userService.getUser(otherUserId).getId())){
-                return null;
+                return new ArrayList<>();
             }
         }
 

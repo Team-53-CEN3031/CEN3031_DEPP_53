@@ -1,9 +1,12 @@
-import {Box, Button, Container, Paper, TextField, ThemeProvider} from "@mui/material";
+import {Box, Button, Paper, TextField, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Login.css";
 import Header from "./Header";
 import {validateJWT} from "../utils/authToken";
+import {backendDomain} from "../utils/backendDomain";
+
 const {getTheme} = require("../styles/themes/themes.js");
+
 
 function Login() {
     // paperStyle is used to style the paper component
@@ -23,7 +26,7 @@ function Login() {
     }
 
     function login(user) {
-        fetch("http://localhost:8080/api/auth/getJWT", {
+        fetch(backendDomain+"/api/auth/getJWT", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
@@ -65,7 +68,7 @@ function Login() {
             }
             const name = null;
             const user = {name,email: emailP,password: passwordP};
-            fetch("http://localhost:8080/api/auth/login", {
+            fetch(backendDomain+"/api/auth/login", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)
@@ -88,7 +91,7 @@ function Login() {
                 return;
             }
             const user = {name: nameS,email: emailS,password: passwordS};
-            fetch("http://localhost:8080/api/auth/register", {
+            fetch(backendDomain+"/api/auth/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)

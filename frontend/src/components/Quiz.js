@@ -1,6 +1,6 @@
-import {Box, Button, Container, Icon, Paper, TextField, ThemeProvider} from "@mui/material";
+import {Button, Paper, TextField, ThemeProvider} from "@mui/material";
 import React, {useEffect, useState} from "react"
-import { Questions } from "../components/QuestionBank.js";
+import {Questions} from "../components/QuestionBank.js";
 import HomeIcon from '@mui/icons-material/Home';
 import FlightIcon from '@mui/icons-material/Flight';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,6 +11,7 @@ import GreatScore from "../images/greatScore.jpeg";
 import GoodScore from "../images/goodScore.jpeg";
 import OkayScore from "../images/okayScore.jpeg";
 import PoorScore from "../images/poorScore.jpeg";
+import {backendDomain} from "../utils/backendDomain";
 
 
 function Quiz(){
@@ -46,7 +47,7 @@ function Quiz(){
 
 
 //This handleQChange functions, are made to change the specified property of the responses useState, while preserving the other properties (...responses).
-    const handleQ0Change = (event) => { 
+    const handleQ0Change = (event) => {
         setResponses({...responses, question0: event.target.value})
         if (Number(responses.question0) < 300 && Number(responses.question0) > -1){
             setInvalidQ0(false);
@@ -55,7 +56,7 @@ function Quiz(){
             setInvalidQ0(true);
         }
     }
-    const handleQ1Change = (event) => { 
+    const handleQ1Change = (event) => {
         setResponses({...responses, question1: event.target.value})
         if (Number(responses.question1) < 500 && Number(responses.question1) > -1){
             setInvalidQ1(false);
@@ -64,7 +65,7 @@ function Quiz(){
             setInvalidQ1(true);
         }
     }
-    const handleQ2Change = (event) => { 
+    const handleQ2Change = (event) => {
         setResponses({...responses, question2: event.target.value})
         if (Number(responses.question2) < 300 && Number(responses.question2) > -1){
             setInvalidQ2(false);
@@ -73,7 +74,7 @@ function Quiz(){
             setInvalidQ2(true);
         }
     }
-    const handleQ3Change = (event) => { 
+    const handleQ3Change = (event) => {
         setResponses({...responses, question3: event.target.value})
         if (Number(responses.question0) < 1000000 && Number(responses.question0) > -1){
             setInvalidQ3(false);
@@ -82,7 +83,7 @@ function Quiz(){
             setInvalidQ3(true);
         }
     }
-    const handleQ4Change = (event) => { 
+    const handleQ4Change = (event) => {
         setResponses({...responses, question4: event.target.value})
         if (Number(responses.question4) < 1000 && Number(responses.question4) > -1){
             setInvalidQ4(false);
@@ -91,7 +92,7 @@ function Quiz(){
             setInvalidQ4(true);
         }
     }
-    const handleQ5Change = (event) => { 
+    const handleQ5Change = (event) => {
         setResponses({...responses, question5: event.target.value})
         if (Number(responses.question5) < 100 && Number(responses.question5) > -1){
             setInvalidQ5(false);
@@ -137,7 +138,7 @@ function Quiz(){
             recyclePaper: responses.question6,
             recycleMetal: responses.question7,
         }
-        fetch("http://localhost:8080/api/quiz/add", {
+        fetch(backendDomain +"/api/quiz/add", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(quizRes)
@@ -163,7 +164,11 @@ function Quiz(){
     }
 
     const currTheme = getTheme();
+    const redirectAddQuiz = () =>
+    {
+        window.location.href = "/addquiz";
 
+    };
     return (
         <ThemeProvider theme={currTheme}>
             <Paper style = {{minHeight: '100vh'}}>
@@ -216,34 +221,34 @@ function Quiz(){
                             <h1 style={{textAlign: "center"}}>Thanks for taking the Enviro quiz</h1>
                             <h2 style={{textAlign: "center"}}>Your carbon emission footprint is:</h2>
                             <h2 style={{textAlign: "center"}}>{score} pounds of CO2/year</h2>
-                            
+
                             {//display different graphic based on results
-                            (score < 6000) ? 
+                            (score < 6000) ?
                             <>
                             <img style={{ alignItem: "center", width: 600, height: 600 }} src={GreatScore} />
                             <h3>Share your results with your friends!</h3>
-                            <a href={require("../images/greatScore.jpeg")} download="EnviroScore">Download</a> 
+                            <a href={require("../images/greatScore.jpeg")} download="EnviroScore">Download</a>
                             <br></br>
                             </>
-                            :(score < 16000) ? 
+                            :(score < 16000) ?
                             <>
                             <img style={{ alignItem: "center", width: 600, height: 600 }} src={GoodScore} />
                             <h3>Share your results with your friends!</h3>
-                            <a href={require("../images/goodScore.jpeg")} download="EnviroScore">Download</a> 
+                            <a href={require("../images/goodScore.jpeg")} download="EnviroScore">Download</a>
                             <br></br>
-                            </> 
-                            :(score < 22000) ? 
+                            </>
+                            :(score < 22000) ?
                             <>
                             <img style={{ alignItem: "center", width: 600, height: 600 }} src={OkayScore} />
                             <h3>Share your results with your friends!</h3>
-                            <a href={require("../images/okayScore.jpeg")} download="EnviroScore">Download</a> 
+                            <a href={require("../images/okayScore.jpeg")} download="EnviroScore">Download</a>
                             <br></br>
                             </>
-                            : (score > 22000) ? 
+                            : (score > 22000) ?
                             <>
                             <img style={{ alignItem: "center", width: 600, height: 600 }} src={PoorScore} />
                             <h3>Share your results with your friends!</h3>
-                            <a href={require("../images/poorScore.jpeg")} download="EnviroScore">Download</a> 
+                            <a href={require("../images/poorScore.jpeg")} download="EnviroScore">Download</a>
                             <br></br>
                             </>
                             : "no score"
@@ -266,8 +271,10 @@ function Quiz(){
                             }
                             <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={handleRetake}>Retake Quiz</Button>
                         </div>
-                        </>                  
-                    }                    
+                            <h2 style={{textAlign: "center"}}>Are you recycling properly? Find out now</h2>
+                            <Button id = "submitButton" variant="contained" color = "primary" style = {{margin:'2%'}}onClick={redirectAddQuiz}>Take Another Quiz</Button>
+                        </>
+                    }
                 </Paper>
             </Paper>
         </ThemeProvider>

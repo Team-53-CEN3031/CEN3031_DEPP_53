@@ -1,4 +1,5 @@
 import axios from "axios";
+import {backendDomain} from "./backendDomain";
 
 const authToken = (token) => {
     if (token) {
@@ -12,7 +13,7 @@ const validateJWT = () => {
     if (localStorage.jwtToken) {
         authToken(localStorage.jwtToken);
         //header = Authorization: Bearer ${localStorage.jwtToken}
-        fetch("http://localhost:8080/api/auth/validateJWT", {
+        fetch(backendDomain+"/api/auth/validateJWT", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: localStorage.jwtToken

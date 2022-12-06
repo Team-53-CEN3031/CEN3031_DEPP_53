@@ -1,9 +1,7 @@
-import {Box, Button, Container, Paper, TextField, ThemeProvider} from "@mui/material";
-import {useEffect, useState} from "react";
+import {Paper, ThemeProvider} from "@mui/material";
 import "../styles/Post.css";
 import Header from "./Header";
 import {getTheme} from "../styles/themes/themes";
-import {validateJWT} from "../utils/authToken";
 
 
 function About() {

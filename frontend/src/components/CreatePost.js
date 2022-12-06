@@ -1,9 +1,10 @@
-import {Box, Button, Container, Paper, TextField, ThemeProvider} from "@mui/material";
+import {Box, Button, Paper, TextField, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Post.css";
 import Header from "./Header";
 import {getTheme} from "../styles/themes/themes";
 import {validateJWT} from "../utils/authToken";
+import {backendDomain} from "../utils/backendDomain";
 
 
 function CreatePost() {
@@ -31,7 +32,7 @@ function CreatePost() {
                 return;
             }
             let p = {postMessage, posterToken};
-            fetch("http://localhost:8080/api/post/add", {
+            fetch(backendDomain+"/api/post/add", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(p)

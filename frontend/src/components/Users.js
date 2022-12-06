@@ -5,6 +5,7 @@ import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
 import Header from "./Header";
 import PortraitIcon from "@mui/icons-material/Portrait";
+import {backendDomain} from "../utils/backendDomain";
 
 function printDate(d) {
     if(d == null) {
@@ -29,7 +30,7 @@ function Users() {
             }
             //send request to block user
             const jwt = localStorage.getItem('jwtToken');
-            fetch("http://localhost:8080/api/user/block/"+id, {
+            fetch(backendDomain+"/api/user/block/"+id, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(jwt)
@@ -43,7 +44,7 @@ function Users() {
             }
             //send request to block user
             const jwt = localStorage.getItem('jwtToken');
-            fetch("http://localhost:8080/api/user/unblock/"+id, {
+            fetch(backendDomain+"/api/user/unblock/"+id, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(jwt)
@@ -58,7 +59,7 @@ function Users() {
             window.location.href = "/404";
         }
         id = parseInt(id);
-        fetch("http://localhost:8080/api/user/get/"+id)
+        fetch(backendDomain+"/api/user/get/"+id)
             .then(res=>res.json())
             .then((result)=>{
                     setUser(result);
@@ -67,7 +68,7 @@ function Users() {
                     }
                 }
             )
-        fetch("http://localhost:8080/api/post/getPostsFrom/"+id)
+        fetch(backendDomain+"/api/post/getPostsFrom/"+id)
             .then(res=>res.json())
             .then((result)=>{
                     setPosts(result);

@@ -1,8 +1,5 @@
 package com.fourm.backend.model;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
-
 public class PostPrototype {
 
     private String postMessage;

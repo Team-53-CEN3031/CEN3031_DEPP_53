@@ -95,8 +95,6 @@ public class AuthController {
         }
         String password = EncryptPassword(login.getPassword());
 
-        String name = login.getName();
-
         //Check if email is already in use
         List<UserPerson> users = userService.getAllUsers();
         for (UserPerson user : users) {
@@ -324,7 +322,6 @@ public class AuthController {
         }
         catch (NoSuchAlgorithmException e)
         {
-            e.printStackTrace();
             return null;
         }
     }

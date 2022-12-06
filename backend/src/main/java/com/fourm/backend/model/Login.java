@@ -1,7 +1,5 @@
 package com.fourm.backend.model;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
 public class Login {
 
     // name is the name of the user and is not unique

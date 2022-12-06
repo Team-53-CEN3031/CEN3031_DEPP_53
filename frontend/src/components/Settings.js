@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect} from "react"
 import {validateJWT} from "../utils/authToken";
 import {Button, Container, Paper, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";

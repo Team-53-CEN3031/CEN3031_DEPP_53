@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {validateJWT} from "../utils/authToken";
 import "../styles/General.css";
 import "../styles/Header.css";
-import {Button, Container, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
+import {Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";
 
 

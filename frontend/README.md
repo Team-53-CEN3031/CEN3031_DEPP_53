@@ -1,23 +1,74 @@
-# Getting Started with Create React App
+### The frontend was created with [Create React App](https://github.com/facebook/create-react-app).
+### The backend was created with [Spring Boot](https://start.spring.io/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setup
 
-## Available Scripts
+In backend/src/main/resources create a file called application.properties and add the 
+following properties: 
 
-In the project directory, you can run:
+`spring.datasource.url=****`
 
-### `npm start`
+`spring.jpa.hibernate.ddl-auto=update`
+
+`spring.datasource.username=****`
+
+`spring.datasource.password=****`
+
+`spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect`
+
+`fourm.app.jwtSecret=****`
+
+`fourm.app.jwtExpirationMs=****`
+
+`security.user.name=****`
+
+`security.user.password=****`
+
+`security.user.role=****`
+
+`spring.mail.host=smtp.gmail.com`
+
+`spring.mail.port=587`
+
+`spring.mail.username=*******@gmail.com`
+
+`spring.mail.password=****************`
+
+`spring.mail.properties.mail.smtp.auth=true`
+
+`spring.mail.properties.mail.smtp.starttls.enable=true`
+
+`spring.mail.properties.mail.smtp.starttls.required=true`
+
+
+Replace the asterisks with required information
+
+
+
+
+Requires Node.JS installed
+
+Preferred IDE is IntelliJ, runs on VS Code, haven't tested on Visual Studio
+
+Open terminal in project location
+
+### `cd .\frontend\`
+
+### `npm install`
+
+to install dependencies
+
+## Frontend
+
+To run the frontend use
+
+### `npm run start` with your location at `frontend` in terminal
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -27,44 +78,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Backend
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Run /backend/src/main/java/com/fourm/backend/BackendApplication.java
+to run backend

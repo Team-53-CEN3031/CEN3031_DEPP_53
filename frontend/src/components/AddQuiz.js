@@ -1,8 +1,9 @@
 import "./AddQuiz.css";
+import {backendDomain} from "../utils/backendDomain";
 
-import {Box, Button, Container, Icon, Paper, TextField, ThemeProvider} from "@mui/material";
+import {Button, Paper, ThemeProvider} from "@mui/material";
 import React, {useState} from "react"
-import {AddQuestions } from "../components/QuestionBank.js";
+import {AddQuestions} from "../components/QuestionBank.js";
 import {getTheme} from "../styles/themes/themes";
 import Header from "./Header";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -27,7 +28,7 @@ function AddQuiz(){
 
             let postMessage = "I scored a " + score + " on the recycling quiz!, can you beat me?";
             let p = {postMessage, posterToken};
-            fetch("http://localhost:8080/api/post/add", {
+            fetch(backendDomain + "/api/post/add", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(p)
@@ -67,7 +68,8 @@ function AddQuiz(){
     {
         setScore(0);
         setFinal(false);
-        window.location.replace("http://localhost:3000/addquiz");
+        window.location.href = "/addquiz";
+
     };
 
     function resultsGradeResponse(num){

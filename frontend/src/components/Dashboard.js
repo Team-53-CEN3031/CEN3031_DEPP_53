@@ -1,10 +1,10 @@
-import {Box, Button, Container, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
+import {Container, Link, MenuItem, Paper, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
-import {useSelector} from "react-redux";
 import {validateJWT} from "../utils/authToken";
 import Header from "./Header";
 import PortraitIcon from '@mui/icons-material/Portrait';
+import {backendDomain} from "../utils/backendDomain";
 
 const {getTheme} = require("../styles/themes/themes.js");
 
@@ -30,7 +30,7 @@ function Dashboard() {
       It is called when the page is loaded
        */
         if(!validateJWT()) {
-            fetch("http://localhost:8080/api/post/getAll")
+            fetch(backendDomain + "/api/post/getAll")
                 .then(res=>res.json())
                 .then((result)=>{
                         setPosts(result);
@@ -38,7 +38,7 @@ function Dashboard() {
                 )
         } else {
             const jwt = localStorage.getItem('jwtToken');
-            fetch("http://localhost:8080/api/post/getAll", {
+            fetch(backendDomain+"/api/post/getAll", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(jwt)

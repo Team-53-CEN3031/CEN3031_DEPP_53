@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react"
 import {validateJWT} from "../utils/authToken";
 import {Box, Button, Link, MenuItem, Paper, TextField, ThemeProvider} from "@mui/material";
 import {getTheme} from "../styles/themes/themes";
-import {useParams} from "react-router-dom";
 import Header from "./Header";
 import PortraitIcon from "@mui/icons-material/Portrait";
+import {backendDomain} from "../utils/backendDomain";
 
 function printDate(d) {
     if(d == null) {
@@ -16,7 +16,6 @@ function printDate(d) {
 
 
 function Chat() {
-    const paperStyle = {padding: '50px 20px', width: 600, margin:'20px auto'}
     const [currUserId, setCurrUserId] = useState(-1);
     useEffect(()=>{
         if(!validateJWT()) {
@@ -24,7 +23,7 @@ function Chat() {
             window.location.href = "/login";
         }
         const jwt = localStorage.getItem('jwtToken');
-        fetch("http://localhost:8080/api/auth/getIdFromToken", {
+        fetch(backendDomain + "/api/auth/getIdFromToken", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(jwt)
@@ -34,7 +33,7 @@ function Chat() {
                 setCurrUserId(data);
             })
         })
-        fetch("http://localhost:8080/api/user/chat/get/" , {
+        fetch(backendDomain + "/api/user/chat/get/" , {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(jwt)
@@ -94,7 +93,7 @@ function Chat() {
             const receiverId = 16;
             const userToken = localStorage.getItem('jwtToken');
             let c = {userToken, chatMessage, receiverId};
-            fetch("http://localhost:8080/api/user/chat/send", {
+            fetch(backendDomain + "/api/user/chat/send", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(c)

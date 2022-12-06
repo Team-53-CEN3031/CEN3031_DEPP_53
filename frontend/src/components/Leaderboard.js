@@ -1,9 +1,9 @@
-import {Box, Button, Container, Paper, ThemeProvider} from "@mui/material";
+import {Container, Paper, ThemeProvider} from "@mui/material";
 import {useEffect, useState} from "react";
 import "../styles/Dashboard.css";
-import {useSelector} from "react-redux";
 import {validateJWT} from "../utils/authToken";
 import Header from "./Header";
+import {backendDomain} from "../utils/backendDomain";
 
 const {getTheme} = require("../styles/themes/themes.js");
 
@@ -25,7 +25,7 @@ function Leaderboard() {
       This function is used to retrieve the list of quizzes from the backend
       It is called when the page is loaded
        */
-        fetch("http://localhost:8080/api/quiz/get/"+selectedDate)
+        fetch(backendDomain+"/api/quiz/get/"+selectedDate)
             .then(res=>res.json())
             .then((result)=>{
                     setQuizzes(result);
@@ -41,7 +41,7 @@ function Leaderboard() {
 
     async function reloadQuizzes(d) {
         await new Promise(resolve => {
-            fetch("http://localhost:8080/api/quiz/get/"+d)
+            fetch(backendDomain+"/api/quiz/get/"+d)
                 .then(res=>res.json())
                 .then((result)=>{
                         setQuizzes(result);

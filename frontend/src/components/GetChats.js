@@ -5,6 +5,7 @@ import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
 import Header from "./Header";
 import PortraitIcon from "@mui/icons-material/Portrait";
+import {backendDomain} from "../utils/backendDomain";
 
 function printDate(d) {
     if(d == null) {
@@ -58,7 +59,7 @@ function GetChats() {
         }
         id = parseInt(id);
         const jwt = localStorage.getItem('jwtToken');
-        fetch("http://localhost:8080/api/user/chat/get/" + id, {
+        fetch(backendDomain+"/api/user/chat/get/" + id, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(jwt)
@@ -85,7 +86,7 @@ function GetChats() {
             const userToken = localStorage.getItem('jwtToken');
             const receiverEmail = null;
             let c = {userToken, chatMessage, receiverId, receiverEmail};
-            fetch("http://localhost:8080/api/user/chat/send", {
+            fetch(backendDomain+"/api/user/chat/send", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(c)

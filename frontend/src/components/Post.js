@@ -5,6 +5,8 @@ import {getTheme} from "../styles/themes/themes";
 import {useParams} from "react-router-dom";
 import Header from "./Header";
 import PortraitIcon from "@mui/icons-material/Portrait";
+import {backendDomain} from "../utils/backendDomain";
+
 
 function printDate(d) {
     if(d == null) {
@@ -35,7 +37,7 @@ function Post() {
             window.location.href = "/404";
         }
         id = parseInt(id);
-        fetch("http://localhost:8080/api/post/getPost/"+id)
+        fetch(backendDomain+"/api/post/getPost/"+id)
             .then(res=>res.json())
             .then((result)=>{
                     setPost(result);
@@ -46,7 +48,7 @@ function Post() {
             )
 
         if(!validateJWT()) {
-            fetch("http://localhost:8080/api/post/getCommentsOf/"+id)
+            fetch(backendDomain+"/api/post/getCommentsOf/"+id)
                 .then(res=>res.json())
                 .then((result)=>{
                         setComment(result);
@@ -54,7 +56,7 @@ function Post() {
                 )
         } else {
             const jwt = localStorage.getItem('jwtToken');
-            fetch("http://localhost:8080/api/post/getCommentsOf/"+id, {
+            fetch(backendDomain+"/api/post/getCommentsOf/"+id, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(jwt)
@@ -80,7 +82,7 @@ function Post() {
             let c = {commentMessage, postId:id, commenterToken};
             //create a variable that is postId cast to a string
 
-            fetch("http://localhost:8080/api/post/postComment/"+id, {
+            fetch(backendDomain+"/api/post/postComment/"+id, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(c)
